@@ -1,8 +1,0 @@
-*.swp
-*.swo
-.DS_Store
-build
-_site
-_includes
-_layouts
-_posts
