@@ -1,0 +1,2417 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+    <title>xmake vs cmake</title>
+    <meta name="description" content="First of all, I have to admit that cmake is very powerful and has developed for so many years. The whole ecology is quite perfect and the functions are quite...">
+
+    
+    <meta name="keywords" content="xmake,lua,cmake,tboox" /> 
+
+    <!-- qq oauth -->
+    <meta property="qc:admins" content="5211601217706727767255" />
+
+    <!--icon -->
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="icon" sizes="192x192" href="/static/img/nice-highres.png" />
+	<link rel="apple-touch-icon-precomposed" href="/static/img/apple-touch-icon-57x57-precomposed.png" />
+	<link rel="apple-touch-icon-precomposed" sizes="72x72" href="/static/img/apple-touch-icon-72x72-precomposed.png" />
+	<link rel="apple-touch-icon-precomposed" sizes="114x114" href="/static/img/apple-touch-icon-114x114-precomposed.png" />
+	<link rel="apple-touch-icon-precomposed" sizes="144x144" href="/static/img/apple-touch-icon-144x144-precomposed.png" />
+	<link rel="apple-touch-icon-precomposed" sizes="180x180" href="/static/img/retinahd_icon.png" />
+	<meta name="msapplication-TileImage" content="/static/img/retinahd_icon.png" />
+	
+    <link rel="stylesheet" href=" /css/fontawesome/css/font-awesome.min.css ">
+    <link rel="stylesheet" href=" /css/main.css ">
+    <link rel="canonical" href="http://www.tboox.org/2019/05/29/xmake-vs-cmake/">
+    <link rel="alternate" type="application/rss+xml" title="TBOOX Open Source Project" href="http://www.tboox.org/feed.xml ">
+    <link rel="alternate" hreflang="en" href="http://www.tboox.org/" />
+    <link rel="alternate" hreflang="zh-Hans" href="http://www.tboox.org/cn/" />
+
+
+
+
+    <script type="text/javascript">
+    function isPC(){    
+        var userAgentInfo = navigator.userAgent;  
+        var Agents = new Array("Android", "iPhone", "SymbianOS", "Windows Phone", "iPad", "iPod");    
+        var flag = true;    
+        for (var v = 0; v < Agents.length; v++) {    
+            if (userAgentInfo.indexOf(Agents[v]) > 0) { flag = false; break; }    
+        }    
+        return flag;    
+    }
+    </script>
+
+<!-- baidu ads -->
+
+
+
+    <!-- baidu ads -->
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/" class="brand">TBOOX</a>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/cn?lang=0">
+                    
+                        <i class="fa fa-home"></i>中文
+                    </a>
+                </li>
+
+                
+                    
+                     
+                    
+                
+                    
+                     
+                     
+                    <li>
+
+                        
+                            
+                            <a href="/project/">
+                            
+                        
+                            <i class="fa fa-bookmark"></i>Projects
+                        </a>
+                    </li>
+                    
+                    
+                    
+                
+                    
+                     
+                    
+                
+                    
+                     
+                     
+                    <li>
+
+                        
+                            
+                            <a href="/archive/">
+                            
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                    
+                    
+                
+                    
+                     
+                    
+                
+                    
+                     
+                     
+                    <li>
+
+                        
+                            
+                            <a href="/category/">
+                            
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                    
+                    
+                
+                    
+                     
+                    
+                
+                    
+                     
+                     
+                    <li>
+
+                        
+                            
+                            <a href="/tag/">
+                            
+                        
+                            <i class="fa fa-tags"></i>Tags
+                        </a>
+                    </li>
+                    
+                    
+                    
+                
+                    
+                
+                    
+                     
+                    
+                
+                    
+                     
+                     
+                    <li>
+
+                        
+                            
+                            <a href="/docs/">
+                            
+                        
+                            <i class="fa fa-book"></i>Documents
+                        </a>
+                    </li>
+                    
+                    
+                    
+                
+                    
+                     
+                    
+                
+                    
+                     
+                     
+                    <li>
+
+                        
+                            
+                            <a href="https://www.reddit.com/r/tboox/" target="_blank" >
+                            
+                        
+                            <i class="fa fa-forumbee"></i>Community
+                        </a>
+                    </li>
+                    
+                    
+                    
+                
+                    
+                     
+                    
+                
+                    
+                     
+                     
+                    <li>
+
+                        
+                            
+                            <a href="/donation/">
+                            
+                        
+                            <i class="fa fa-heart"></i>Donate
+                        </a>
+                    </li>
+                    
+                    
+                    
+                
+                    
+                     
+                    
+                
+                    
+                     
+                     
+                    <li>
+
+                        
+                            
+                            <a href="/about/">
+                            
+                        
+                            <i class="fa fa-user"></i>About
+                        </a>
+                    </li>
+                    
+                    
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                     
+                     
+                    
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+
+        <div class="page clearfix" post>
+    <div class="left">
+        <h1>xmake vs cmake</h1>
+        <div class="label">
+
+            <div class="label-card">
+                <i class="fa fa-calendar"></i>2019-05-29
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+            
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#xmake" title="Category: xmake" rel="category">xmake</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+            </div>
+
+            <div class="label-card">
+            
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+        <!--a href="/tag/#xmake" title="Tag: xmake" rel="tag">xmake</a-->
+        <a href="/tag/#xmake" title="Tag: xmake" rel="tag">xmake</a>&nbsp;
+    
+        <!--a href="/tag/#lua" title="Tag: lua" rel="tag">lua</a-->
+        <a href="/tag/#lua" title="Tag: lua" rel="tag">lua</a>&nbsp;
+    
+        <!--a href="/tag/#cmake" title="Tag: cmake" rel="tag">cmake</a-->
+        <a href="/tag/#cmake" title="Tag: cmake" rel="tag">cmake</a>
+    
+  
+
+</span>
+
+            </div>
+
+        </div>
+        <hr>
+        <article itemscope itemtype="http://schema.org/BlogPosting">
+        <p>First of all, I have to admit that cmake is very powerful and has developed for so many years. The whole ecology is quite perfect and the functions are quite rich. This is not the case with xmake.</p>
+
+<p>The purpose of doing xmake at the beginning was not to completely replace cmake. It didn’t make any sense. I just thought that the syntax and ease of use of cmake couldn’t satisfy me. I still prefer a simpler and more intuitive way to describe and maintain the project. Provides a near-consistent experience under the platform.</p>
+
+<p>Therefore, xmake’s syntax description and experience is still very good, which is one of the biggest highlights of xmake. I have made a lot of improvements in this design, and it is easier to get started quickly in order to lower the threshold of learning and project maintenance.</p>
+
+<p>Here, I only use some of the more dominant features of xmake to compare with cmake, just to highlight the advantages and ease of use of xmake in some aspects, and there is no meaning to devalue cmake.</p>
+
+<p>If you have read the comparative analysis of this article, I feel that xmake is really easy to use, can meet the needs of some project maintenance, solve some pain points, and improve the efficiency of project maintenance.</p>
+
+<ul>
+  <li><a href="https://github.com/xmake-io/xmake">Github</a></li>
+  <li><a href="https://xmake.io">Documents</a></li>
+  <li><a href="https://tboox.org/2019/05/26/xmake-update-v2.2.6/">xmake v2.2.6 released, Support Qt/Adnroid application</a></li>
+</ul>
+
+<h3 id="feature-support">Feature Support</h3>
+
+<p>I will first list some of the main basic features of the build tools. Most of the features are supported, and the advantages of xmake are mainly: syntax, package repository management, build experience.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>feature</th>
+      <th>xmake</th>
+      <th>cmake</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Grammar</td>
+      <td>Lua syntax, simple and intuitive, fast to get started</td>
+      <td>DSL, complex, high learning cost</td>
+    </tr>
+    <tr>
+      <td>Self-built package warehouse management</td>
+      <td>Multi-warehouse support, self-built private package warehouse</td>
+      <td>Not supported</td>
+    </tr>
+    <tr>
+      <td>Third Party Package Management Integration</td>
+      <td>vcpkg/conan/brew</td>
+      <td>vcpkg/conan/Other</td>
+    </tr>
+    <tr>
+      <td>Build Behavior</td>
+      <td>Direct Build, No Dependencies</td>
+      <td>Generate Project Files, Call Third Party Build Tools</td>
+    </tr>
+    <tr>
+      <td>Dependencies</td>
+      <td>Depends only on the build toolchain</td>
+      <td>Dependent build toolchain + third-party build tools</td>
+    </tr>
+    <tr>
+      <td>Find Dependencies</td>
+      <td>Support</td>
+      <td>Support</td>
+    </tr>
+    <tr>
+      <td>Compiler Feature Detection</td>
+      <td>Support</td>
+      <td>Support</td>
+    </tr>
+    <tr>
+      <td>Project File Generation</td>
+      <td>Support</td>
+      <td>Support</td>
+    </tr>
+    <tr>
+      <td>Cross-platform</td>
+      <td>Support</td>
+      <td>Support</td>
+    </tr>
+    <tr>
+      <td>IDE/Editor Plugin</td>
+      <td>Support</td>
+      <td>Support</td>
+    </tr>
+    <tr>
+      <td>Modules and Plugin Extensions</td>
+      <td>Support</td>
+      <td>Support</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="syntax">Syntax</h3>
+
+<h4 id="empty-project">Empty Project</h4>
+
+<h5 id="xmake">xmake</h5>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="n">target</span><span class="p">(</span><span class="s2">"test"</span><span class="p">)</span>
+    <span class="n">set_kind</span><span class="p">(</span><span class="s2">"binary"</span><span class="p">)</span>
+    <span class="n">add_files</span><span class="p">(</span><span class="s2">"src/main.c"</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<h5 id="cmake">cmake</h5>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="n">add_executable</span><span class="p">(</span><span class="n">test</span> <span class="s2">""</span><span class="p">)</span>
+<span class="n">target_sources</span><span class="p">(</span><span class="n">test</span> <span class="n">PRIVATE</span> <span class="n">src</span><span class="o">/</span><span class="n">main</span><span class="p">.</span><span class="n">c</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<h4 id="add-source-files">Add Source Files</h4>
+
+<h5 id="xmake-1">xmake</h5>
+
+<p>xmake supports wildcard matching, adding a batch of source files, <code class="highlighter-rouge">*.c</code> matches all files in the current directory, <code class="highlighter-rouge">**.c</code> matches all files in the recursive directory.</p>
+
+<p>In this way, for some new files compiled in the normal project, you don’t need to modify xmake.lua every time, and automatically synchronize, which can save a lot of time.</p>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="n">target</span><span class="p">(</span><span class="s2">"test"</span><span class="p">)</span>
+    <span class="n">set_kind</span><span class="p">(</span><span class="s2">"binary"</span><span class="p">)</span>
+    <span class="n">add_files</span><span class="p">(</span><span class="s2">"src/*.c"</span><span class="p">)</span>
+    <span class="n">add_files</span><span class="p">(</span><span class="s2">"test/*.c"</span><span class="p">,</span> <span class="s2">"example/**.cpp"</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<p>Xmake’s <code class="highlighter-rouge">add_files()</code> is very flexible and powerful. It not only supports the addition of various types of source files, but also excludes certain specified files while adding them.</p>
+
+<p>For example: recursively add all c files under src, but not all c files under <code class="highlighter-rouge">src/impl/</code>.</p>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="n">add_files</span><span class="p">(</span><span class="s2">"src/**.c|impl/*.c"</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<p>For more instructions on using this interface, see the related documentation: <a href="https://xmake.io/#/manual?id=targetadd_files">add_files</a></p>
+
+<h5 id="cmake-1">cmake</h5>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="n">add_executable</span><span class="p">(</span><span class="n">test</span> <span class="s2">""</span><span class="p">)</span>
+<span class="n">file</span><span class="p">(</span><span class="n">GLOB</span> <span class="n">SRC_FILES</span> <span class="s2">"src/*.c"</span><span class="p">)</span>
+<span class="n">file</span><span class="p">(</span><span class="n">GLOB</span> <span class="n">TEST_FILES</span> <span class="s2">"test/*.c"</span><span class="p">)</span>
+<span class="n">file</span><span class="p">(</span><span class="n">GLOB_RECURSE</span> <span class="n">EXAMPLE_FILES</span> <span class="s2">"example/*.cpp"</span><span class="p">)</span>
+<span class="n">target_sources</span><span class="p">(</span><span class="n">test</span> <span class="n">PRIVATE</span> 
+    <span class="err">$</span><span class="p">{</span><span class="n">SRC_FILES</span><span class="p">}</span>
+    <span class="err">$</span><span class="p">{</span><span class="n">TEST_FILES</span><span class="p">}</span>
+    <span class="err">$</span><span class="p">{</span><span class="n">EXAMPLE_FILES</span><span class="p">}</span>
+<span class="p">)</span>
+</code></pre>
+</div>
+
+<h4 id="conditional-compilation">Conditional compilation</h4>
+
+<h5 id="xmake-2">xmake</h5>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="n">target</span><span class="p">(</span><span class="s2">"test"</span><span class="p">)</span>
+    <span class="n">set_kind</span><span class="p">(</span><span class="s2">"binary"</span><span class="p">)</span>
+    <span class="n">add_files</span><span class="p">(</span><span class="s2">"src/main.c"</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">is_plat</span><span class="p">(</span><span class="s2">"macosx"</span><span class="p">,</span> <span class="s2">"linux"</span><span class="p">)</span> <span class="k">then</span>
+        <span class="n">add_defines</span><span class="p">(</span><span class="s2">"TEST1"</span><span class="p">,</span> <span class="s2">"TEST2"</span><span class="p">)</span>
+    <span class="k">end</span>
+    <span class="k">if</span> <span class="n">is_plat</span><span class="p">(</span><span class="s2">"windows"</span><span class="p">)</span> <span class="ow">and</span> <span class="n">is_mode</span><span class="p">(</span><span class="s2">"release"</span><span class="p">)</span> <span class="k">then</span>
+        <span class="n">add_cxflags</span><span class="p">(</span><span class="s2">"-Ox"</span><span class="p">,</span> <span class="s2">"-fp:fast"</span><span class="p">)</span>
+    <span class="k">end</span>
+</code></pre>
+</div>
+
+<h5 id="cmake-2">cmake</h5>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="n">add_executable</span><span class="p">(</span><span class="n">test</span> <span class="s2">""</span><span class="p">)</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">APPLE</span> <span class="n">OR</span> <span class="n">LINUX</span><span class="p">)</span>
+    <span class="n">target_compile_definitions</span><span class="p">(</span><span class="n">test</span> <span class="n">PRIVATE</span> <span class="n">TEST1</span> <span class="n">TEST2</span><span class="p">)</span>
+<span class="n">endif</span><span class="p">()</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">WIN32</span><span class="p">)</span>
+    <span class="n">target_compile_options</span><span class="p">(</span><span class="n">test</span> <span class="n">PRIVATE</span> <span class="err">$</span><span class="o">&lt;</span><span class="err">$</span><span class="o">&lt;</span><span class="n">CONFIG</span><span class="p">:</span><span class="n">Release</span><span class="o">&gt;</span><span class="p">:</span><span class="o">-</span><span class="n">Ox</span> <span class="o">-</span><span class="n">fp</span><span class="p">:</span><span class="n">fast</span><span class="o">&gt;</span><span class="p">)</span>
+<span class="n">endif</span><span class="p">()</span>
+<span class="n">target_sources</span><span class="p">(</span><span class="n">test</span> <span class="n">PRIVATE</span>
+    <span class="n">src</span><span class="o">/</span><span class="n">main</span><span class="p">.</span><span class="n">c</span>
+<span class="p">)</span>
+</code></pre>
+</div>
+
+<h4 id="custom-script">Custom script</h4>
+
+<h5 id="xmake-3">xmake</h5>
+
+<p>Xmake can be used to insert a custom script to handle its own logic at different stages of compilation and build (including compiling, installing, packaging, running), such as printing a line of output after compilation is complete:</p>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="n">target</span><span class="p">(</span><span class="s2">"test"</span><span class="p">)</span>
+    <span class="n">set_kind</span><span class="p">(</span><span class="s2">"binary"</span><span class="p">)</span>
+    <span class="n">add_files</span><span class="p">(</span><span class="s2">"src/*.c"</span><span class="p">)</span>
+    <span class="n">after_build</span><span class="p">(</span><span class="k">function</span> <span class="p">(</span><span class="n">target</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"target file: %s"</span><span class="p">,</span> <span class="n">target</span><span class="p">:</span><span class="n">targetfile</span><span class="p">())</span>
+    <span class="k">end</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<p>Or customize the run and install logic:</p>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="n">target</span><span class="p">(</span><span class="s2">"test"</span><span class="p">)</span>
+    <span class="n">set_kind</span><span class="p">(</span><span class="s2">"binary"</span><span class="p">)</span>
+    <span class="n">add_files</span><span class="p">(</span><span class="s2">"src/*.c"</span><span class="p">)</span>
+    <span class="n">on_install</span><span class="p">(</span><span class="k">function</span> <span class="p">(</span><span class="n">target</span><span class="p">)</span>
+        <span class="n">os</span><span class="p">.</span><span class="n">cp</span><span class="p">(</span><span class="n">target</span><span class="p">:</span><span class="n">targetfile</span><span class="p">(),</span> <span class="s2">"/usr/local/bin"</span><span class="p">)</span>
+    <span class="k">end</span><span class="p">)</span>
+    <span class="n">on_run</span><span class="p">(</span><span class="k">function</span> <span class="p">(</span><span class="n">target</span><span class="p">)</span>
+        <span class="n">os</span><span class="p">.</span><span class="n">run</span><span class="p">(</span><span class="s2">"%s --help"</span><span class="p">,</span> <span class="n">target</span><span class="p">:</span><span class="n">targetfile</span><span class="p">())</span>
+    <span class="k">end</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<p>In the custom script, users can write a variety of complex scripts, through the <a href="https://xmake.io/#/manual?id=import">import</a> interface, you can import a variety of extension modules to use.</p>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="n">target</span><span class="p">(</span><span class="s2">"test"</span><span class="p">)</span>
+    <span class="n">set_kind</span><span class="p">(</span><span class="s2">"binary"</span><span class="p">)</span>
+    <span class="n">add_files</span><span class="p">(</span><span class="s2">"src/*.c"</span><span class="p">)</span>
+    <span class="n">before_build</span><span class="p">(</span><span class="k">function</span> <span class="p">(</span><span class="n">target</span><span class="p">)</span>
+        <span class="n">import</span><span class="p">(</span><span class="s2">"net.http"</span><span class="p">)</span>
+        <span class="n">import</span><span class="p">(</span><span class="s2">"devel.git"</span><span class="p">)</span>
+        <span class="n">http</span><span class="p">.</span><span class="n">download</span><span class="p">(</span><span class="s2">"https://xmake.io"</span><span class="p">,</span> <span class="s2">"/tmp/index.html"</span><span class="p">)</span>
+        <span class="n">git</span><span class="p">.</span><span class="n">clone</span><span class="p">(</span><span class="s2">"git@github.com:tboox/xmake.git"</span><span class="p">,</span> <span class="p">{</span><span class="n">depth</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">branch</span> <span class="o">=</span> <span class="s2">"master"</span><span class="p">,</span> <span class="n">outputdir</span> <span class="o">=</span> <span class="s2">"/tmp/xmake"</span><span class="p">})</span>
+    <span class="k">end</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<h5 id="cmake-3">cmake</h5>
+
+<p>cmake can also be implemented with <code class="highlighter-rouge">add_custom_command</code>:</p>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="n">add_executable</span><span class="p">(</span><span class="n">test</span> <span class="s2">""</span><span class="p">)</span>
+<span class="n">target_sources</span><span class="p">(</span><span class="n">test</span> <span class="n">PRIVATE</span> <span class="n">src</span><span class="o">/</span><span class="n">main</span><span class="p">.</span><span class="n">c</span><span class="p">)</span>
+<span class="n">add_custom_command</span><span class="p">(</span><span class="n">TARGET</span> <span class="n">test</span> <span class="n">POST_BUILD</span>
+    <span class="n">COMMENT</span> <span class="s2">"hello cmake!"</span>
+<span class="p">)</span>
+</code></pre>
+</div>
+
+<p>However, looked at the different stages, the way to customize the script is not exactly the same, <code class="highlighter-rouge">add_custom_command</code> can only be used for the customization of the build phase, if you want to customize the installation phase, you have:</p>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="n">install</span><span class="p">(</span><span class="n">SCRIPT</span> <span class="n">cmake_install</span><span class="p">.</span><span class="n">cmake</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<p>And only the entire installation logic can be replaced, some custom logic can not be implemented before and after the installation, and other customizations such as packaging, running, etc. do not seem to support.</p>
+
+<h3 id="build-behavior">Build behavior</h3>
+
+<h4 id="compile-the-default-platform">Compile the default platform</h4>
+
+<h5 id="xmake-4">xmake</h5>
+
+<p>Normally, the default platform is compiled to execute xmake. During the build, xmake does not depend on other third-party build tools. Even make does not depend on it, nor does it generate IDE/Makefile files.
+Instead, the compiled toolchain is directly compiled for compilation. By default, the multitask acceleration build is automatically started according to the cpu core number.</p>
+
+<div class="language-console highlighter-rouge"><pre class="highlight"><code>xmake
+</code></pre>
+</div>
+
+<h5 id="cmake-4">cmake</h5>
+
+<p>The cmake is usually a third-party build file such as IDE/Makefile, and then a third-party build tool such as make/msbuild is called to compile.</p>
+
+<div class="language-console highlighter-rouge"><pre class="highlight"><code>cmake .
+cmake --build .
+</code></pre>
+</div>
+
+<h4 id="compile-the-given-platform">Compile the given platform</h4>
+
+<h5 id="xmake-5">xmake</h5>
+
+<p>Xmake can quickly switch between different platforms and architectures in a nearly consistent way.</p>
+
+<div class="language-console highlighter-rouge"><pre class="highlight"><code>xmake f -p [iphoneos|android|linux|windows|mingw] -a [arm64|armv7|i386|x86_64]
+xmake
+</code></pre>
+</div>
+
+<h5 id="cmake-5">cmake</h5>
+
+<p>Cmake seems to be different for the compilation and configuration of different platforms and architectures. The difference is still somewhat, and it takes a little time to study.</p>
+
+<div class="language-console highlighter-rouge"><pre class="highlight"><code>cmake -G Xcode -DIOS_ARCH="arm64" .
+cmake --build .
+</code></pre>
+</div>
+
+<div class="language-console highlighter-rouge"><pre class="highlight"><code>cmake -G "Visual Studio 9 2008" -A x64
+cmake --build .
+</code></pre>
+</div>
+
+<p>Like the android platform to compile, the way to configure ndk seems to be very cumbersome.</p>
+
+<div class="language-console highlighter-rouge"><pre class="highlight"><code>cmake .. -DCMAKE_TOOLCHAIN_FILE=%ANDROID_NDK%\build\cmake\android.toolchain.cmake -DCMAKE_SYSTEM_NAME="Android" -DANDROID_NDK=%ANDROID_NDK% -DANDROID_TOOLCHAIN=clang -DANDROID_PLATFORM=android-24
+</code></pre>
+</div>
+
+<h4 id="install-target">Install target</h4>
+
+<h5 id="xmake-6">xmake</h5>
+
+<div class="language-console highlighter-rouge"><pre class="highlight"><code>xmake install 
+</code></pre>
+</div>
+
+<h5 id="cmake-6">cmake</h5>
+
+<div class="language-console highlighter-rouge"><pre class="highlight"><code>cmake -P cmake_install.cmake
+</code></pre>
+</div>
+
+<h4 id="run-target">Run target</h4>
+
+<h5 id="xmake-7">xmake</h5>
+
+<p>In most cases, xmake can load the target program running the compiled build without writing a custom script.</p>
+
+<div class="language-console highlighter-rouge"><pre class="highlight"><code>xmake run 
+</code></pre>
+</div>
+
+<h5 id="cmake-7">cmake</h5>
+
+<p>I haven’t found a way to quickly run the specified target program, but I should be able to load it by writing a custom script.</p>
+
+<div class="language-console highlighter-rouge"><pre class="highlight"><code>cmake -P cmake_run.cmake
+</code></pre>
+</div>
+
+<h3 id="dependency-support">Dependency support</h3>
+
+<h4 id="find-dependent-libraries">Find dependent libraries</h4>
+
+<h5 id="xmake-8">xmake</h5>
+
+<p>Xmake also supports the interface similar to cmake’s <code class="highlighter-rouge">find_package</code> to directly find the system library, and then integrate it. After finding the library, it will automatically add includers, links, linkdirs and other related settings.</p>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="n">target</span><span class="p">(</span><span class="s2">"test"</span><span class="p">)</span>
+    <span class="n">set_kind</span><span class="p">(</span><span class="s2">"binary"</span><span class="p">)</span>
+    <span class="n">add_files</span><span class="p">(</span><span class="s2">"src/*.c"</span><span class="p">)</span>
+    <span class="n">on_load</span><span class="p">(</span><span class="k">function</span> <span class="p">(</span><span class="n">target</span><span class="p">)</span>
+        <span class="n">target</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">find_packages</span><span class="p">(</span><span class="s2">"openssl"</span><span class="p">,</span> <span class="s2">"zlib"</span><span class="p">))</span>
+    <span class="k">end</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<h5 id="cmake-8">cmake</h5>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="n">add_executable</span><span class="p">(</span><span class="n">test</span> <span class="n">main</span><span class="p">.</span><span class="n">c</span><span class="p">)</span>
+
+<span class="n">find_package</span><span class="p">(</span><span class="n">OpenSSL</span> <span class="n">REQUIRED</span><span class="p">)</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">OpenSSL_FOUND</span><span class="p">)</span>
+    <span class="n">target_include_directories</span><span class="p">(</span><span class="n">test</span> <span class="err">$</span><span class="p">{</span><span class="n">OpenSSL_INCLUDE_DIRS</span><span class="p">})</span>
+    <span class="n">target_link_libraries</span><span class="p">(</span><span class="n">test</span> <span class="err">$</span><span class="p">{</span><span class="n">OpenSSL_LIBRARIES</span><span class="p">})</span>
+<span class="n">endif</span><span class="p">()</span> 
+
+<span class="n">find_package</span><span class="p">(</span><span class="n">Zlib</span> <span class="n">REQUIRED</span><span class="p">)</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">Zlib_FOUND</span><span class="p">)</span>
+    <span class="n">target_include_directories</span><span class="p">(</span><span class="n">test</span> <span class="err">$</span><span class="p">{</span><span class="n">Zlib_INCLUDE_DIRS</span><span class="p">})</span>
+    <span class="n">target_link_libraries</span><span class="p">(</span><span class="n">test</span> <span class="err">$</span><span class="p">{</span><span class="n">Zlib_LIBRARIES</span><span class="p">})</span>
+<span class="n">endif</span><span class="p">()</span> 
+</code></pre>
+</div>
+
+<h4 id="using-a-third-party-library-conan">Using a third-party library (Conan)</h4>
+
+<h5 id="xmake-9">xmake</h5>
+
+<p>Xmake will automatically call the conan tool to download and install the openssl library, and then integrate it, just execute the xmake command to complete the compilation.</p>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="n">add_requires</span><span class="p">(</span><span class="s2">"conan::OpenSSL/1.0.2n@conan/stable"</span><span class="p">,</span> <span class="p">{</span><span class="n">alias</span> <span class="o">=</span> <span class="s2">"openssl"</span><span class="p">})</span> 
+<span class="n">target</span><span class="p">(</span><span class="s2">"test"</span><span class="p">)</span>
+    <span class="n">set_kind</span><span class="p">(</span><span class="s2">"binary"</span><span class="p">)</span>
+    <span class="n">add_files</span><span class="p">(</span><span class="s2">"src/*.c"</span><span class="p">)</span>
+    <span class="n">add_packages</span><span class="p">(</span><span class="s2">"openssl"</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<h5 id="cmake-9">cmake</h5>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="k">if</span><span class="p">(</span><span class="n">NOT</span> <span class="n">EXISTS</span> <span class="s2">"${CMAKE_BINARY_DIR}/conan.cmake"</span><span class="p">)</span>
+   <span class="n">message</span><span class="p">(</span><span class="n">STATUS</span> <span class="s2">"Downloading conan.cmake from https://github.com/conan-io/cmake-conan"</span><span class="p">)</span>
+   <span class="n">file</span><span class="p">(</span><span class="n">DOWNLOAD</span> <span class="s2">"https://github.com/conan-io/cmake-conan/raw/v0.14/conan.cmake"</span>
+                 <span class="s2">"${CMAKE_BINARY_DIR}/conan.cmake"</span><span class="p">)</span>
+<span class="n">endif</span><span class="p">()</span>
+
+<span class="n">include</span><span class="p">(</span><span class="err">$</span><span class="p">{</span><span class="n">CMAKE_BINARY_DIR</span><span class="p">}</span><span class="o">/</span><span class="n">conan</span><span class="p">.</span><span class="n">cmake</span><span class="p">)</span>
+
+<span class="n">conan_cmake_run</span><span class="p">(</span><span class="n">REQUIRES</span> <span class="n">OpenSSL</span><span class="o">/</span><span class="mi">1</span><span class="p">.</span><span class="mi">0</span><span class="p">.</span><span class="mi">2</span><span class="n">n</span><span class="err">@</span><span class="n">conan</span><span class="o">/</span><span class="n">stable</span>
+                <span class="n">BASIC_SETUP</span> 
+                <span class="n">BUILD</span> <span class="n">missing</span><span class="p">)</span>
+
+<span class="n">add_executable</span><span class="p">(</span><span class="n">test</span> <span class="n">main</span><span class="p">.</span><span class="n">c</span><span class="p">)</span>
+<span class="n">target_link_libraries</span><span class="p">(</span><span class="n">main</span> <span class="err">$</span><span class="p">{</span><span class="n">CONAN_LIBS</span><span class="p">})</span>
+</code></pre>
+</div>
+
+<h4 id="using-the-built-in-package-repository">Using the built-in package repository</h4>
+
+<h5 id="xmake-10">xmake</h5>
+
+<p>Xmake has a self-built package repository. Although there aren’t a lot of bread here, it will be improved in the future: <a href="https://github.com/xmake-io/xmake-repo">xmake-repo</a></p>
+
+<p>We only need to add the relevant required packages, it is very convenient, and support multi-version selection and semantic version control.</p>
+
+<p>Even some common packages support multi-platform integration, such as: zlib library, etc. Even if you compile android/iphoneos/mingw and other platforms, you can download and install them directly.</p>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="n">add_requires</span><span class="p">(</span><span class="s2">"libuv master"</span><span class="p">,</span> <span class="s2">"ffmpeg"</span><span class="p">,</span> <span class="s2">"zlib 1.20.*"</span><span class="p">)</span>
+<span class="n">add_requires</span><span class="p">(</span><span class="s2">"tbox &gt;1.6.1"</span><span class="p">,</span> <span class="p">{</span><span class="n">optional</span> <span class="o">=</span> <span class="kc">true</span><span class="p">,</span> <span class="n">debug</span> <span class="o">=</span> <span class="kc">true</span><span class="p">})</span>
+<span class="n">target</span><span class="p">(</span><span class="s2">"test"</span><span class="p">)</span>
+    <span class="n">set_kind</span><span class="p">(</span><span class="s2">"shared"</span><span class="p">)</span>
+    <span class="n">add_files</span><span class="p">(</span><span class="s2">"src/*.c"</span><span class="p">)</span>
+    <span class="n">add_packages</span><span class="p">(</span><span class="s2">"libuv"</span><span class="p">,</span> <span class="s2">"ffmpeg"</span><span class="p">,</span> <span class="s2">"tbox"</span><span class="p">,</span> <span class="s2">"zlib"</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<p>After executing the xmake command, it will automatically download the corresponding package from the repository and compile and install. The integrated link comes in, the effect is as follows:</p>
+
+<div align="center">
+<img src="https://xmake.io/assets/img/index/package_manage.png" width="80%" />
+</div>
+
+<p>In addition to the official package repository, users can also create multiple private repositories themselves to integrate some private packages, which is very helpful for the maintenance of the company’s internal projects.</p>
+
+<p>We only need to add our own private repository address to xmake.lua:</p>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="n">add_repositories</span><span class="p">(</span><span class="s2">"my-repo git@github.com:myrepo/xmake-repo.git"</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<p>Or add it directly from the command line:</p>
+
+<div class="language-console highlighter-rouge"><pre class="highlight"><code>xmake repo --add my-repo git@github.com:myrepo/xmake-repo.git
+</code></pre>
+</div>
+
+<p>A detailed description of this block can be seen in the relevant documentation:</p>
+
+<ul>
+  <li><a href="https://xmake.io/#/home?id=remote-dependency-mode">Remote dependency mode</a></li>
+  <li><a href="https://xmake.io/#/manual?id=add_requires">add_requires</a></li>
+</ul>
+
+<p>Finally, with a xmake dependency package management architecture diagram:</p>
+
+<div align="center">
+<img src="https://xmake.io/assets/img/index/package_arch.png" width="80%" />
+</div>
+
+<h5 id="cmake-10">cmake</h5>
+
+<p>I didn’t see cmake support, but cmake I didn’t use much. If there is something wrong, everyone can correct me.</p>
+
+        </article>
+        <hr>
+
+        <!-- baidu ads -->
+        
+
+        
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+                    
+                    <h2 id="chinese">中文</h2>
+                    <ul>
+                    
+                    <li class="relatedPost">
+                        <a href="/cn/2019/05/29/xmake-vs-cmake/">xmake vs cmake对比分析
+                        
+                        </a>
+                    </li>
+                    
+                    
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+        
+            </ul>
+        
+
+        
+        
+            
+            
+            
+                
+                    
+                        
+                        <h2 id="similar_posts">Similar Posts</h2>
+                        <ul>
+                        
+                        <li class="relatedPost">
+                            <a href="/2020/06/28/xmake-update-v2.3.5/">xmake v2.3.5 released, Multi-toolchain flexible switching support
+                            
+                            </a>
+                        </li>
+                        
+                        
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+            
+            
+        
+            
+        
+            
+            
+            
+                
+                    
+                        
+                        <li class="relatedPost">
+                            <a href="/2020/06/05/xmake-update-v2.3.4/">xmake v2.3.4 released, better toolchain support
+                            
+                            </a>
+                        </li>
+                        
+                        
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+            
+            
+        
+            
+        
+            
+            
+            
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                        
+                        <li class="relatedPost">
+                            <a href="/2020/05/06/ltui-v1.7/">LTUI v1.7 released, A cross-platform terminal ui library based on Lua
+                            
+                            </a>
+                        </li>
+                        
+                        
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+            
+            
+        
+            
+        
+            
+            
+            
+                
+                    
+                        
+                        <li class="relatedPost">
+                            <a href="/2020/04/27/xmake-update-v2.3.3/">xmake v2.3.3 released, Support for building iOS/MacOS Framework and App
+                            
+                            </a>
+                        </li>
+                        
+                        
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+            
+            
+        
+            
+        
+            
+        
+            
+            
+            
+                
+                    
+                        
+                        <li class="relatedPost">
+                            <a href="/2020/04/17/xmake-gradle-v1.0.7/">xmake-gradle v1.0.7 released, Integrate xmake to quickly build Android JNI program
+                            
+                            </a>
+                        </li>
+                        
+                        
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+            
+            
+        
+        
+            </ul>
+        
+
+        <div class="post-recent">
+    <div class="pre">
+
+        
+
+        
+
+        
+        
+        
+
+        
+
+        
+
+        
+        
+        <p><strong>Prev Post</strong> <a href="/2019/05/26/xmake-update-v2.2.6/">xmake v2.2.6 released, Support Qt/Adnroid application</a></p>
+        
+    </div>
+
+    <div class="nex">
+
+        
+
+        
+
+        
+        
+        
+
+        
+
+        
+
+        
+        
+        <p><strong>Next Post</strong> <a href="/2019/06/17/xmake-update-v2.2.7/">xmake v2.2.7 released, Improve to build Cuda project</a></p>
+        
+    </div>
+</div>
+
+
+        <h2 id="comments">Comments</h2>
+        
+
+
+
+
+
+
+<div id="gitalk-container"></div>
+<link rel="stylesheet" href="/css/gitalk.css">
+<script src="/js/gitalk.min.js"></script>
+
+<script>
+const gitalk = new Gitalk({
+  clientID: '73946dc1d9e2276ad0da',
+  clientSecret: '12a3cb94361ba3ebc6ecb68cf80d592bfaa8106d',
+  repo: 'tboox.github.io',
+  owner: 'waruqi',
+  admin: ['waruqi'],
+  id: location.pathname,      
+  language: 'en',
+  distractionFreeMode: false  
+})
+
+gitalk.render('gitalk-container')
+</script>
+
+
+
+
+
+    </div>
+    <button class="anchor"><i class="fa fa-anchor"></i></button>
+    <div class="right">
+        <div class="wrap">
+
+
+            <!-- codefund ads -->
+            
+
+            <!-- Content -->
+            <div class="side content">
+                <div>
+                    Content
+                </div>
+                <ul id="content-side" class="content-ul">
+                    <li><a href="#chinese">中文</a></li>
+                    <li><a href="#similar_posts">Similar Posts</a></li>
+                    <li><a href="#comments">Comments</a></li>
+                </ul>
+            </div>
+
+            <!-- baidu ads -->
+            
+
+            <br>
+            <div class="side">
+                <div>
+                    <i class="fa fa-external-link"></i>
+                    Links
+                </div>
+                <ul class="content-ul">
+                  <li><a href="http://github.com/waruqi/tbox">tbox</a></li>
+                  <li><a href="http://www.xmake.io">xmake</a></li>
+                  <li><a href="https://github.com/waruqi">github</a></li>
+                </ul>
+            </div> 
+
+            <!-- google ads -->
+            
+
+            <!-- baidu ads -->
+            
+
+            <!-- chitika ads -->
+            
+        </div>
+    </div>
+
+    <!-- baidu ads -->
+    
+</div>
+<script>
+/**
+ * target _blank
+ */
+(function() {
+    var aTags = document.querySelectorAll('article a:not([id])')
+    for (var i = 0; i < aTags.length; i++) {
+        aTags[i].setAttribute('target', '_blank')
+    }
+}());
+</script>
+<script src="/js/pageContent.js " charset="utf-8"></script>
+
+
+
+    <footer class="site-footer">
+    <div class="wrapper">
+        <p class="description">
+             Copyright (c) 2016-2020 tboox.org 
+        </p>
+        <p class="contact">
+            
+            <a href="https://github.com/waruqi" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a> 
+             
+            
+            <a href="mailto:waruqi@gmail.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a> 
+            
+            
+            <a href="https://twitter.com/waruqi" title="Twitter"><i class="fa fa-twitter" aria-hidden="true"></i></a> 
+            
+            <a href="/feed.xml" title="feed"><i class="fa fa-feed" aria-hidden="true"></i></a> 
+        </p>
+        <p class="power">
+            <span>
+                Site powered by <a href="https://jekyllrb.com/">Jekyll</a> & <a href="https://github.com/Gaohaoyang">HyG</a> & <a href="https://pages.github.com/">Github Pages</a>.
+            </span>
+        </p>
+    </div>
+</footer>
+
+    <div class="back-to-top">
+    <a href="#top" class="scroll">
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/scroll.min.js " charset="utf-8"></script>
+  </body>
+
+</html>

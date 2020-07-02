@@ -1,0 +1,1858 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+    <title>利用正则实现匹配和替换</title>
+    <meta name="description" content="tbox里面针对三个正则库（pcre/pcre2/posix）进行了封装，实现接口统一和跨平台处理，只要xmake在编译配置的时候自动检测到其中一种库，就可以使用了，一般会优先使用pcre2。如果你不想过多的依赖第三方库，可以切换到posix的正则，调用 xmake f --pcre=false --pcre2=...">
+
+    
+    <meta name="keywords" content="tbox,正则表达式,替换,匹配,tboox" /> 
+
+    <!-- qq oauth -->
+    <meta property="qc:admins" content="5211601217706727767255" />
+
+    <!--icon -->
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="icon" sizes="192x192" href="/static/img/nice-highres.png" />
+	<link rel="apple-touch-icon-precomposed" href="/static/img/apple-touch-icon-57x57-precomposed.png" />
+	<link rel="apple-touch-icon-precomposed" sizes="72x72" href="/static/img/apple-touch-icon-72x72-precomposed.png" />
+	<link rel="apple-touch-icon-precomposed" sizes="114x114" href="/static/img/apple-touch-icon-114x114-precomposed.png" />
+	<link rel="apple-touch-icon-precomposed" sizes="144x144" href="/static/img/apple-touch-icon-144x144-precomposed.png" />
+	<link rel="apple-touch-icon-precomposed" sizes="180x180" href="/static/img/retinahd_icon.png" />
+	<meta name="msapplication-TileImage" content="/static/img/retinahd_icon.png" />
+	
+    <link rel="stylesheet" href=" /css/fontawesome/css/font-awesome.min.css ">
+    <link rel="stylesheet" href=" /css/main.css ">
+    <link rel="canonical" href="http://www.tboox.org/cn/2016/08/02/regex-match-replace/">
+    <link rel="alternate" type="application/rss+xml" title="TBOOX Open Source Project" href="http://www.tboox.org/feed.xml ">
+    <link rel="alternate" hreflang="en" href="http://www.tboox.org/" />
+    <link rel="alternate" hreflang="zh-Hans" href="http://www.tboox.org/cn/" />
+
+    <!-- css -->
+    <link href="/css/reward.css" rel="stylesheet" type="text/css"> 
+
+
+
+
+    <script type="text/javascript">
+    function isPC(){    
+        var userAgentInfo = navigator.userAgent;  
+        var Agents = new Array("Android", "iPhone", "SymbianOS", "Windows Phone", "iPad", "iPod");    
+        var flag = true;    
+        for (var v = 0; v < Agents.length; v++) {    
+            if (userAgentInfo.indexOf(Agents[v]) > 0) { flag = false; break; }    
+        }    
+        return flag;    
+    }
+    </script>
+
+<!-- baidu ads -->
+
+
+
+    <!-- baidu ads -->
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/cn" class="brand">TBOOX</a>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/?lang=0">
+                    
+                        <i class="fa fa-home"></i>English
+                    </a>
+                </li>
+
+                
+                    
+                    
+                    <li>
+                        
+                            
+                            <a href="/cn/project/">
+                            
+                        
+                            <i class="fa fa-bookmark"></i>项目
+                        </a>
+                    </li>
+                    
+                    
+                
+                    
+                    
+                    
+                
+                    
+                    
+                    <li>
+                        
+                            
+                            <a href="/cn/archive/">
+                            
+                        
+                            <i class="fa fa-archive"></i>归档
+                        </a>
+                    </li>
+                    
+                    
+                
+                    
+                    
+                    
+                
+                    
+                    
+                    <li>
+                        
+                            
+                            <a href="/cn/category/">
+                            
+                        
+                            <i class="fa fa-th-list"></i>分类
+                        </a>
+                    </li>
+                    
+                    
+                
+                    
+                    
+                    
+                
+                    
+                    
+                    <li>
+                        
+                            
+                            <a href="/cn/tag/">
+                            
+                        
+                            <i class="fa fa-tags"></i>标记
+                        </a>
+                    </li>
+                    
+                    
+                
+                    
+                    
+                    
+                
+                    
+                
+                    
+                    
+                    <li>
+                        
+                            
+                            <a href="/cn/docs/">
+                            
+                        
+                            <i class="fa fa-book"></i>文档
+                        </a>
+                    </li>
+                    
+                    
+                
+                    
+                    
+                    
+                
+                    
+                    
+                    <li>
+                        
+                            
+                            <a href="https://www.reddit.com/r/tboox/" target="_blank" >
+                            
+                        
+                            <i class="fa fa-forumbee"></i>社区
+                        </a>
+                    </li>
+                    
+                    
+                
+                    
+                    
+                    
+                
+                    
+                    
+                    <li>
+                        
+                            
+                            <a href="/cn/donation/">
+                            
+                        
+                            <i class="fa fa-heart"></i>捐助
+                        </a>
+                    </li>
+                    
+                    
+                
+                    
+                    
+                    
+                
+                    
+                    
+                    <li>
+                        
+                            
+                            <a href="/cn/about/">
+                            
+                        
+                            <i class="fa fa-user"></i>关于
+                        </a>
+                    </li>
+                    
+                    
+                
+                    
+                    
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                    
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+
+        <div class="page clearfix" post>
+    <div class="left">
+        <h1>利用正则实现匹配和替换</h1>
+        <div class="label">
+
+            <div class="label-card">
+                <i class="fa fa-calendar"></i>2016-08-02
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+            
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#tbox" title="Category: tbox" rel="category">tbox</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+            </div>
+
+            <div class="label-card">
+            
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+        <!--a href="/tag/#tbox" title="Tag: tbox" rel="tag">tbox</a-->
+        <a href="/cn/tag/#tbox" title="Tag: tbox" rel="tag">tbox</a>&nbsp;
+    
+        <!--a href="/tag/#%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F" title="Tag: 正则表达式" rel="tag">正则表达式</a-->
+        <a href="/cn/tag/#正则表达式" title="Tag: 正则表达式" rel="tag">正则表达式</a>&nbsp;
+    
+        <!--a href="/tag/#%E6%9B%BF%E6%8D%A2" title="Tag: 替换" rel="tag">替换</a-->
+        <a href="/cn/tag/#替换" title="Tag: 替换" rel="tag">替换</a>&nbsp;
+    
+        <!--a href="/tag/#%E5%8C%B9%E9%85%8D" title="Tag: 匹配" rel="tag">匹配</a-->
+        <a href="/cn/tag/#匹配" title="Tag: 匹配" rel="tag">匹配</a>
+    
+  
+
+</span>
+
+            </div>
+
+        </div>
+        <hr>
+        <article itemscope itemtype="http://schema.org/BlogPosting">
+        <p>tbox里面针对三个正则库（pcre/pcre2/posix）进行了封装，实现接口统一和跨平台处理，只要xmake在编译配置的时候自动检测到其中一种库，就可以使用了，一般会优先使用pcre2。</p>
+
+<p>如果你不想过多的依赖第三方库，可以切换到posix的正则，调用 <code class="highlighter-rouge">xmake f --pcre=false --pcre2=false</code> 把pcre的库禁用了就行了。</p>
+
+<p>首先给个最简单的匹配单个子串的例子：</p>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code>    <span class="c1">// 执行简单匹配，第二个参数是匹配模式，默认传0就行了
+</span>    <span class="n">tb_vector_ref_t</span> <span class="n">results</span> <span class="o">=</span> <span class="n">tb_regex_match_done_simple</span><span class="p">(</span><span class="s">"(</span><span class="se">\\</span><span class="s">w+)</span><span class="se">\\</span><span class="s">s+?(</span><span class="se">\\</span><span class="s">w+)"</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s">"hello world"</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">results</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="c1">// 遍历匹配到的结果
+</span>        <span class="n">tb_for_all_if</span> <span class="p">(</span><span class="n">tb_regex_match_ref_t</span><span class="p">,</span> <span class="n">entry</span><span class="p">,</span> <span class="n">results</span><span class="p">,</span> <span class="n">entry</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="c1">// 打印匹配到的子串的起始偏移、长度、和内容
+</span>            <span class="n">tb_trace_i</span><span class="p">(</span><span class="s">"[%lu, %lu]: %s"</span><span class="p">,</span> <span class="n">entry</span><span class="o">-&gt;</span><span class="n">start</span><span class="p">,</span> <span class="n">entry</span><span class="o">-&gt;</span><span class="n">size</span><span class="p">,</span> <span class="n">entry</span><span class="o">-&gt;</span><span class="n">cstr</span><span class="p">);</span>
+        <span class="p">}</span>
+        
+        <span class="c1">// 销毁匹配到的结果数据
+</span>        <span class="n">tb_vector_exit</span><span class="p">(</span><span class="n">results</span><span class="p">);</span>
+    <span class="p">}</span>
+</code></pre>
+</div>
+
+<p>输出结果如下：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>[0, 11]: hello world 
+[0, 5]: hello
+[6, 5]: world
+</code></pre>
+</div>
+
+<p>第一个匹配结果，是针对整个匹配子串的，后面两个结果，是针对()里面的分组匹配。。</p>
+
+<p>如果不想进行遍历，只像提取其中第一个分组匹配的结果，可以这么使用：</p>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code>    <span class="c1">// 执行简单匹配，第二个参数是匹配模式，默认传0就行了
+</span>    <span class="n">tb_vector_ref_t</span> <span class="n">results</span> <span class="o">=</span> <span class="n">tb_regex_match_done_simple</span><span class="p">(</span><span class="s">"(</span><span class="se">\\</span><span class="s">w+)</span><span class="se">\\</span><span class="s">s+?(</span><span class="se">\\</span><span class="s">w+)"</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s">"hello world"</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">results</span> <span class="o">&amp;&amp;</span> <span class="n">tb_vector_size</span><span class="p">(</span><span class="n">results</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="c1">// 获取第一个分组结果，也就是索引1的子串
+</span>        <span class="n">tb_regex_match_ref_t</span> <span class="n">entry</span> <span class="o">=</span> <span class="p">(</span><span class="n">tb_regex_match_ref_t</span><span class="p">)</span><span class="n">tb_iterator_item</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">entry</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="c1">// 打印匹配到的子串的起始偏移、长度、和内容
+</span>            <span class="n">tb_trace_i</span><span class="p">(</span><span class="s">"[%lu, %lu]: %s"</span><span class="p">,</span> <span class="n">entry</span><span class="o">-&gt;</span><span class="n">start</span><span class="p">,</span> <span class="n">entry</span><span class="o">-&gt;</span><span class="n">size</span><span class="p">,</span> <span class="n">entry</span><span class="o">-&gt;</span><span class="n">cstr</span><span class="p">);</span>
+        <span class="p">}</span>
+        
+        <span class="c1">// 销毁匹配到的结果数据
+</span>        <span class="n">tb_vector_exit</span><span class="p">(</span><span class="n">results</span><span class="p">);</span>
+    <span class="p">}</span>
+</code></pre>
+</div>
+
+<p>上面只能匹配全文中的第一个字串，如果想要进行全局匹配，可以这么来：</p>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code>
+    <span class="c1">// 初始化一个正则对象，采用默认匹配模式
+</span>    <span class="n">tb_regex_ref_t</span> <span class="n">regex</span> <span class="o">=</span> <span class="n">tb_regex_init</span><span class="p">(</span><span class="s">"</span><span class="se">\\</span><span class="s">w+"</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">regex</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="c1">// 循环匹配全部子串
+</span>        <span class="n">tb_long_t</span>       <span class="n">start</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="n">tb_size_t</span>       <span class="n">length</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="n">tb_vector_ref_t</span> <span class="n">results</span> <span class="o">=</span> <span class="n">tb_null</span><span class="p">;</span>
+        <span class="k">while</span> <span class="p">((</span><span class="n">start</span> <span class="o">=</span> <span class="n">tb_regex_match_cstr</span><span class="p">(</span><span class="n">regex</span><span class="p">,</span> <span class="n">content</span><span class="p">,</span> <span class="n">start</span> <span class="o">+</span> <span class="n">length</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">length</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">results</span><span class="p">))</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">results</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="c1">// 整个子串的起始偏移和长度（不是分组子串，是整个匹配串）
+</span>            <span class="n">tb_trace_i</span><span class="p">(</span><span class="s">"[%lu, %lu]: "</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">length</span><span class="p">);</span>
+
+            <span class="c1">// 遍历显示这个匹配子串的所有分组，第一项是整个子串
+</span>            <span class="n">tb_for_all_if</span> <span class="p">(</span><span class="n">tb_regex_match_ref_t</span><span class="p">,</span> <span class="n">entry</span><span class="p">,</span> <span class="n">results</span><span class="p">,</span> <span class="n">entry</span><span class="p">)</span>
+            <span class="p">{</span>
+                <span class="c1">// trace
+</span>                <span class="n">tb_trace_i</span><span class="p">(</span><span class="s">"    [%lu, %lu]: %s"</span><span class="p">,</span> <span class="n">entry</span><span class="o">-&gt;</span><span class="n">start</span><span class="p">,</span> <span class="n">entry</span><span class="o">-&gt;</span><span class="n">size</span><span class="p">,</span> <span class="n">entry</span><span class="o">-&gt;</span><span class="n">cstr</span><span class="p">);</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+
+        <span class="c1">// 销毁正则对象
+</span>        <span class="n">tb_regex_exit</span><span class="p">(</span><span class="n">regex</span><span class="p">);</span>
+    <span class="p">}</span>
+
+</code></pre>
+</div>
+
+<p>用 <code class="highlighter-rouge">tb_regex_init</code> 创建一个正则对象的方式，针对匹配次数频繁的操作，进行了优化，因为它会提前预编译正则表达式</p>
+
+<p>如果只是进行单一子串匹配，那么使用<code class="highlighter-rouge">tb_regex_match_done_simple</code>就够用了，毕竟接口更加简单易用</p>
+
+<p>需要注意的是，用 <code class="highlighter-rouge">tb_regex_init</code> 进行的所有匹配结果和替换结果，是不需要手动销毁释放的，在调用<code class="highlighter-rouge">tb_regex_exit</code>，会去自动释放他们</p>
+
+<p>前面传递的匹配模式，只传了0，使用默认匹配规则，tbox目前可以支持以下模式：</p>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code>    <span class="n">TB_REGEX_MODE_NONE</span>              <span class="o">=</span> <span class="mi">0</span>     <span class="c1">//!&lt; 默认匹配模式
+</span><span class="p">,</span>   <span class="n">TB_REGEX_MODE_CASELESS</span>          <span class="o">=</span> <span class="mi">1</span>     <span class="c1">//!&lt; 忽略大小写匹配
+</span><span class="p">,</span>   <span class="n">TB_REGEX_MODE_MULTILINE</span>         <span class="o">=</span> <span class="mi">2</span>     <span class="c1">//!&lt; ^ 和 $ 匹配新行，实现多行匹配
+</span><span class="p">,</span>   <span class="n">TB_REGEX_MODE_GLOBAL</span>            <span class="o">=</span> <span class="mi">4</span>     <span class="c1">//!&lt; 执行全局替换
+</span>
+</code></pre>
+</div>
+
+<p>替换子串更加方便，如果替换单次子串，只需要：</p>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code>    <span class="c1">// 执行单次替换
+</span>    <span class="n">tb_char_t</span> <span class="k">const</span><span class="o">*</span> <span class="n">results</span> <span class="o">=</span> <span class="n">tb_regex_replace_done_simple</span><span class="p">(</span><span class="s">"</span><span class="se">\\</span><span class="s">w+"</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s">"hello world"</span><span class="p">,</span> <span class="s">"hi"</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">results</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="c1">// trace
+</span>        <span class="n">tb_trace_i</span><span class="p">(</span><span class="s">": %s"</span><span class="p">,</span> <span class="n">results</span><span class="p">);</span>
+
+        <span class="c1">// 销毁结果字串
+</span>        <span class="n">tb_free</span><span class="p">(</span><span class="n">results</span><span class="p">);</span>
+    <span class="p">}</span>
+</code></pre>
+</div>
+
+<p>输出结果如下：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>hi world
+</code></pre>
+</div>
+
+<p>如果要进行多次全局替换，只需修改匹配模式：</p>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code>    <span class="c1">// 设置TB_REGEX_MODE_GLOBAL全局替换模式，执行多次替换
+</span>    <span class="n">tb_char_t</span> <span class="k">const</span><span class="o">*</span> <span class="n">results</span> <span class="o">=</span> <span class="n">tb_regex_replace_done_simple</span><span class="p">(</span><span class="s">"</span><span class="se">\\</span><span class="s">w+"</span><span class="p">,</span> <span class="n">TB_REGEX_MODE_GLOBAL</span><span class="p">,</span> <span class="s">"hello world"</span><span class="p">,</span> <span class="s">"hi"</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">results</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="c1">// trace
+</span>        <span class="n">tb_trace_i</span><span class="p">(</span><span class="s">": %s"</span><span class="p">,</span> <span class="n">results</span><span class="p">);</span>
+
+        <span class="c1">// 销毁结果字串
+</span>        <span class="n">tb_free</span><span class="p">(</span><span class="n">results</span><span class="p">);</span>
+    <span class="p">}</span>
+</code></pre>
+</div>
+
+<p>输出结果如下：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>hi hi
+</code></pre>
+</div>
+
+<p>当然如果同一个正则替换不同文本的操作很频繁，那么先用 <code class="highlighter-rouge">tb_regex_init("\\w+", TB_REGEX_MODE_GLOBAL)</code> 创建个正则对象来替换，这样效率会高很多，这个就看具体实际需要了。。</p>
+
+
+        </article>
+        <hr>
+
+        <!-- baidu ads -->
+        
+
+        <!-- reward -->
+        <div style="text-align: center;">
+            <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+              <span>赏</span>
+            </button>
+            <div id="QR" style="display: none;">
+                <div id="wechat" style="display: inline-block">
+                  <img id="wechat_qr" src="/static/img/weixin.png" alt="WeChat Pay"/>
+                  <p>微信打赏</p>
+                </div>
+                <div id="alipay" style="display: inline-block">
+                  <img id="alipay_qr" src="/static/img/alipay.png" alt="Alipay"/>
+                  <p>支付宝打赏</p>
+                </div>
+            </div>
+        </div>
+
+        
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+        
+
+        
+        
+            
+        
+            
+            
+            
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+            
+        
+            
+        
+            
+            
+            
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+            
+        
+            
+        
+            
+            
+            
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+            
+        
+            
+        
+            
+            
+            
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+            
+        
+            
+            
+            
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+            
+        
+            
+        
+        
+
+        <div class="post-recent">
+    <div class="pre">
+
+        
+
+        
+
+        
+        
+        <p><strong>上一篇</strong> <a href="/cn/2016/08/01/hnr-correct-slope/">手写数字识别系统之倾斜矫正</a></p>
+        
+    </div>
+
+    <div class="nex">
+
+        
+
+        
+
+        
+        
+        <p><strong>下一篇</strong> <a href="/cn/2016/08/02/binding-option/">xmake高级特性之选项绑定</a></p>
+        
+    </div>
+</div>
+
+
+        <h2 id="comments">评论</h2>
+        
+
+
+
+
+
+
+<div id="gitalk-container"></div>
+<link rel="stylesheet" href="/css/gitalk.css">
+<script src="/js/gitalk.min.js"></script>
+
+<script>
+const gitalk = new Gitalk({
+  clientID: '73946dc1d9e2276ad0da',
+  clientSecret: '12a3cb94361ba3ebc6ecb68cf80d592bfaa8106d',
+  repo: 'tboox.github.io',
+  owner: 'waruqi',
+  admin: ['waruqi'],
+  id: location.pathname,       
+  language: 'zh-CN',
+  distractionFreeMode: false  
+})
+
+gitalk.render('gitalk-container')
+</script>
+
+
+
+
+
+    </div>
+    <button class="anchor"><i class="fa fa-anchor"></i></button>
+    <div class="right">
+        <div class="wrap">
+
+            <!-- codefund ads -->
+            
+
+            <!-- Content -->
+            <div class="side content">
+                <div>
+                    内容
+                </div>
+                <ul id="content-side" class="content-ul">
+                    <li><a href="#english">English</a></li>
+                    <li><a href="#similar_posts">相关文章</a></li>
+                    <li><a href="#comments">评论</a></li>
+                </ul>
+            </div>
+
+
+            <!-- baidu ads -->
+            
+            
+            <br>
+            <div class="side">
+                <div>
+                    <i class="fa fa-external-link"></i>
+                    链接
+                </div>
+                <ul class="content-ul">
+                  <li><a href="http://github.com/waruqi/tbox">tbox</a></li>
+                  <li><a href="http://www.xmake.io">xmake</a></li>
+                  <li><a href="https://github.com/waruqi">github</a></li>
+                </ul>
+            </div> 
+
+            <!-- qqgroup -->
+            <br>
+            <div class="side">
+                <div>
+                    <i class="fa fa-external-link"></i>
+                    技术交流群（QQ）
+                </div>
+                <img src="/static/img/qqgroup.png" alt="qqgroup" width="256" height="284">
+            </div> 
+
+            <!-- google ads -->
+            
+
+            <!-- baidu ads -->
+            
+
+        </div>
+    </div>
+
+    <!-- baidu ads -->
+    
+</div>
+<script>
+/**
+ * target _blank
+ */
+(function() {
+    var aTags = document.querySelectorAll('article a:not([id])')
+    for (var i = 0; i < aTags.length; i++) {
+        aTags[i].setAttribute('target', '_blank')
+    }
+}());
+</script>
+<script src="/js/pageContent.js " charset="utf-8"></script>
+
+
+
+    <footer class="site-footer">
+    <div class="wrapper">
+        <p class="description">
+             Copyright (c) 2016-2020 tboox.org 
+        </p>
+        <p class="contact">
+            
+            <a href="https://github.com/waruqi" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a> 
+             
+            
+            <a href="mailto:waruqi@gmail.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a> 
+            
+            
+            <a href="https://twitter.com/waruqi" title="Twitter"><i class="fa fa-twitter" aria-hidden="true"></i></a> 
+            
+            <a href="/feed.xml" title="feed"><i class="fa fa-feed" aria-hidden="true"></i></a> 
+        </p>
+        <p class="power">
+            <span>
+                Site powered by <a href="https://jekyllrb.com/">Jekyll</a> & <a href="https://github.com/Gaohaoyang">HyG</a> & <a href="https://pages.github.com/">Github Pages</a>.
+            </span>
+        </p>
+    </div>
+</footer>
+
+    <div class="back-to-top">
+    <a href="#top" class="scroll">
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/scroll.min.js " charset="utf-8"></script>
+  </body>
+
+</html>

@@ -1,0 +1,2127 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+    <title>Builtin variables and shell</title>
+    <meta name="description" content="xmake provides the grammar: $(varname) for supporting builtin variable..e.gadd_cxflags("-I$(buildir)")It will translate this variable to the real value when ...">
+
+    
+    <meta name="keywords" content="xmake,shell,builtin-variables,pkg-config,tboox" /> 
+
+    <!-- qq oauth -->
+    <meta property="qc:admins" content="5211601217706727767255" />
+
+    <!--icon -->
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="icon" sizes="192x192" href="/static/img/nice-highres.png" />
+	<link rel="apple-touch-icon-precomposed" href="/static/img/apple-touch-icon-57x57-precomposed.png" />
+	<link rel="apple-touch-icon-precomposed" sizes="72x72" href="/static/img/apple-touch-icon-72x72-precomposed.png" />
+	<link rel="apple-touch-icon-precomposed" sizes="114x114" href="/static/img/apple-touch-icon-114x114-precomposed.png" />
+	<link rel="apple-touch-icon-precomposed" sizes="144x144" href="/static/img/apple-touch-icon-144x144-precomposed.png" />
+	<link rel="apple-touch-icon-precomposed" sizes="180x180" href="/static/img/retinahd_icon.png" />
+	<meta name="msapplication-TileImage" content="/static/img/retinahd_icon.png" />
+	
+    <link rel="stylesheet" href=" /css/fontawesome/css/font-awesome.min.css ">
+    <link rel="stylesheet" href=" /css/main.css ">
+    <link rel="canonical" href="http://www.tboox.org/2016/07/18/builtinvar-and-shell/">
+    <link rel="alternate" type="application/rss+xml" title="TBOOX Open Source Project" href="http://www.tboox.org/feed.xml ">
+    <link rel="alternate" hreflang="en" href="http://www.tboox.org/" />
+    <link rel="alternate" hreflang="zh-Hans" href="http://www.tboox.org/cn/" />
+
+
+
+
+    <script type="text/javascript">
+    function isPC(){    
+        var userAgentInfo = navigator.userAgent;  
+        var Agents = new Array("Android", "iPhone", "SymbianOS", "Windows Phone", "iPad", "iPod");    
+        var flag = true;    
+        for (var v = 0; v < Agents.length; v++) {    
+            if (userAgentInfo.indexOf(Agents[v]) > 0) { flag = false; break; }    
+        }    
+        return flag;    
+    }
+    </script>
+
+<!-- baidu ads -->
+
+
+
+    <!-- baidu ads -->
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/" class="brand">TBOOX</a>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/cn?lang=0">
+                    
+                        <i class="fa fa-home"></i>中文
+                    </a>
+                </li>
+
+                
+                    
+                     
+                    
+                
+                    
+                     
+                     
+                    <li>
+
+                        
+                            
+                            <a href="/project/">
+                            
+                        
+                            <i class="fa fa-bookmark"></i>Projects
+                        </a>
+                    </li>
+                    
+                    
+                    
+                
+                    
+                     
+                    
+                
+                    
+                     
+                     
+                    <li>
+
+                        
+                            
+                            <a href="/archive/">
+                            
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                    
+                    
+                
+                    
+                     
+                    
+                
+                    
+                     
+                     
+                    <li>
+
+                        
+                            
+                            <a href="/category/">
+                            
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                    
+                    
+                
+                    
+                     
+                    
+                
+                    
+                     
+                     
+                    <li>
+
+                        
+                            
+                            <a href="/tag/">
+                            
+                        
+                            <i class="fa fa-tags"></i>Tags
+                        </a>
+                    </li>
+                    
+                    
+                    
+                
+                    
+                
+                    
+                     
+                    
+                
+                    
+                     
+                     
+                    <li>
+
+                        
+                            
+                            <a href="/docs/">
+                            
+                        
+                            <i class="fa fa-book"></i>Documents
+                        </a>
+                    </li>
+                    
+                    
+                    
+                
+                    
+                     
+                    
+                
+                    
+                     
+                     
+                    <li>
+
+                        
+                            
+                            <a href="https://www.reddit.com/r/tboox/" target="_blank" >
+                            
+                        
+                            <i class="fa fa-forumbee"></i>Community
+                        </a>
+                    </li>
+                    
+                    
+                    
+                
+                    
+                     
+                    
+                
+                    
+                     
+                     
+                    <li>
+
+                        
+                            
+                            <a href="/donation/">
+                            
+                        
+                            <i class="fa fa-heart"></i>Donate
+                        </a>
+                    </li>
+                    
+                    
+                    
+                
+                    
+                     
+                    
+                
+                    
+                     
+                     
+                    <li>
+
+                        
+                            
+                            <a href="/about/">
+                            
+                        
+                            <i class="fa fa-user"></i>About
+                        </a>
+                    </li>
+                    
+                    
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                     
+                     
+                    
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+
+        <div class="page clearfix" post>
+    <div class="left">
+        <h1>Builtin variables and shell</h1>
+        <div class="label">
+
+            <div class="label-card">
+                <i class="fa fa-calendar"></i>2016-07-18
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+            
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#xmake" title="Category: xmake" rel="category">xmake</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+            </div>
+
+            <div class="label-card">
+            
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+        <!--a href="/tag/#xmake" title="Tag: xmake" rel="tag">xmake</a-->
+        <a href="/tag/#xmake" title="Tag: xmake" rel="tag">xmake</a>&nbsp;
+    
+        <!--a href="/tag/#shell" title="Tag: shell" rel="tag">shell</a-->
+        <a href="/tag/#shell" title="Tag: shell" rel="tag">shell</a>&nbsp;
+    
+        <!--a href="/tag/#builtin-variables" title="Tag: builtin-variables" rel="tag">builtin-variables</a-->
+        <a href="/tag/#builtin-variables" title="Tag: builtin-variables" rel="tag">builtin-variables</a>&nbsp;
+    
+        <!--a href="/tag/#pkg-config" title="Tag: pkg-config" rel="tag">pkg-config</a-->
+        <a href="/tag/#pkg-config" title="Tag: pkg-config" rel="tag">pkg-config</a>
+    
+  
+
+</span>
+
+            </div>
+
+        </div>
+        <hr>
+        <article itemscope itemtype="http://schema.org/BlogPosting">
+        <p>xmake provides the grammar: <code class="highlighter-rouge">$(varname)</code> for supporting builtin variable.</p>
+
+<p>.e.g</p>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="n">add_cxflags</span><span class="p">(</span><span class="s2">"-I$(buildir)"</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<p>It will translate this variable to the real value when building.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>-I$(buildir) =&gt; -I./build
+</code></pre>
+</div>
+
+<p>We can also use these variables in the custom scripts.</p>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="n">target</span><span class="p">(</span><span class="s2">"test"</span><span class="p">)</span>
+    <span class="n">after_build</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"build ok for $(plat)!"</span><span class="p">)</span>
+    <span class="k">end</span>
+</code></pre>
+</div>
+
+<p>And the output result is</p>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="n">build</span> <span class="n">ok</span> <span class="k">for</span> <span class="n">macosx</span><span class="err">!</span>
+</code></pre>
+</div>
+
+<p>xmake will get values of these valriables from the cached configure after running <code class="highlighter-rouge">xmake config --plat=macosx ...</code></p>
+
+<p>Also we have some variables which are not in the configure file.</p>
+
+<p>.e.g</p>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="nb">print</span><span class="p">(</span><span class="s2">"$(os)"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"$(host)"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"$(tmpdir)"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"$(curdir)"</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<p>we can uses these variable for writing <code class="highlighter-rouge">xmake.lua</code> more easily.</p>
+
+<p>.e.g</p>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="n">os</span><span class="p">.</span><span class="n">cp</span><span class="p">(</span><span class="s2">"$(projectdir)/file"</span><span class="p">,</span> <span class="s2">"$(tmpdir)"</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<p>vs</p>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="c1">-- import project module</span>
+<span class="n">import</span><span class="p">(</span><span class="s2">"core.project.project"</span><span class="p">)</span>
+
+<span class="c1">-- copy file</span>
+<span class="n">os</span><span class="p">.</span><span class="n">cp</span><span class="p">(</span><span class="n">path</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">project</span><span class="p">.</span><span class="n">directory</span><span class="p">(),</span> <span class="s2">"file"</span><span class="p">),</span> <span class="n">os</span><span class="p">.</span><span class="n">tmpdir</span><span class="p">())</span>
+</code></pre>
+</div>
+
+<p>xmake can also run native shell for calling some third-party tools.</p>
+
+<p>.e.g</p>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="n">target</span><span class="p">(</span><span class="s2">"test"</span><span class="p">)</span>
+    <span class="n">set_kind</span><span class="p">(</span><span class="s2">"binary"</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">is_plat</span><span class="p">(</span><span class="s2">"linux"</span><span class="p">)</span> <span class="k">then</span>
+        <span class="n">add_ldflags</span><span class="p">(</span><span class="s2">"$(shell pkg-config --libs sqlite3)"</span><span class="p">)</span>
+    <span class="k">end</span>
+</code></pre>
+</div>
+
+<p>Or</p>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="n">target</span><span class="p">(</span><span class="s2">"test"</span><span class="p">)</span>
+    <span class="n">set_kind</span><span class="p">(</span><span class="s2">"binary"</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">is_plat</span><span class="p">(</span><span class="s2">"linux"</span><span class="p">)</span> <span class="k">then</span>
+        <span class="n">add_linkdir</span><span class="p">(</span><span class="s2">"$(shell find ./ -name lib)"</span><span class="p">)</span>
+    <span class="k">end</span>
+</code></pre>
+</div>
+
+<p>But often, we do not need to do this. The Lua srcipt has been very powerful : )</p>
+
+
+        </article>
+        <hr>
+
+        <!-- baidu ads -->
+        
+
+        
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+                    
+                    <h2 id="chinese">中文</h2>
+                    <ul>
+                    
+                    <li class="relatedPost">
+                        <a href="/cn/2016/07/18/builtinvar-and-shell/">内置变量与原生shell脚本运行
+                        
+                        </a>
+                    </li>
+                    
+                    
+                
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+        
+            </ul>
+        
+
+        
+        
+            
+            
+            
+                
+                    
+                        
+                        <h2 id="similar_posts">Similar Posts</h2>
+                        <ul>
+                        
+                        <li class="relatedPost">
+                            <a href="/2020/06/28/xmake-update-v2.3.5/">xmake v2.3.5 released, Multi-toolchain flexible switching support
+                            
+                            </a>
+                        </li>
+                        
+                        
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+            
+        
+            
+        
+            
+            
+            
+                
+                    
+                        
+                        <li class="relatedPost">
+                            <a href="/2020/06/05/xmake-update-v2.3.4/">xmake v2.3.4 released, better toolchain support
+                            
+                            </a>
+                        </li>
+                        
+                        
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+            
+        
+            
+        
+            
+            
+            
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                        
+                        <li class="relatedPost">
+                            <a href="/2020/05/06/ltui-v1.7/">LTUI v1.7 released, A cross-platform terminal ui library based on Lua
+                            
+                            </a>
+                        </li>
+                        
+                        
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+            
+        
+            
+        
+            
+            
+            
+                
+                    
+                        
+                        <li class="relatedPost">
+                            <a href="/2020/04/27/xmake-update-v2.3.3/">xmake v2.3.3 released, Support for building iOS/MacOS Framework and App
+                            
+                            </a>
+                        </li>
+                        
+                        
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+            
+        
+            
+        
+            
+        
+            
+            
+            
+                
+                    
+                        
+                        <li class="relatedPost">
+                            <a href="/2020/04/17/xmake-gradle-v1.0.7/">xmake-gradle v1.0.7 released, Integrate xmake to quickly build Android JNI program
+                            
+                            </a>
+                        </li>
+                        
+                        
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+            
+        
+        
+            </ul>
+        
+
+        <div class="post-recent">
+    <div class="pre">
+
+        
+
+        
+
+        
+        
+        
+
+        
+
+        
+
+        
+        
+        
+
+        
+
+        
+
+        
+        
+        <p><strong>Prev Post</strong> <a href="/2016/07/17/update-v2.0.3/">xmake v2.0.3 update!</a></p>
+        
+    </div>
+
+    <div class="nex">
+
+        
+
+        
+
+        
+        
+        
+
+        
+
+        
+
+        
+        
+        
+
+        
+
+        
+
+        
+        
+        <p><strong>Next Post</strong> <a href="/2016/07/19/config-description/">How to configure for compiling</a></p>
+        
+    </div>
+</div>
+
+
+        <h2 id="comments">Comments</h2>
+        
+
+
+
+
+
+
+<div id="gitalk-container"></div>
+<link rel="stylesheet" href="/css/gitalk.css">
+<script src="/js/gitalk.min.js"></script>
+
+<script>
+const gitalk = new Gitalk({
+  clientID: '73946dc1d9e2276ad0da',
+  clientSecret: '12a3cb94361ba3ebc6ecb68cf80d592bfaa8106d',
+  repo: 'tboox.github.io',
+  owner: 'waruqi',
+  admin: ['waruqi'],
+  id: location.pathname,      
+  language: 'en',
+  distractionFreeMode: false  
+})
+
+gitalk.render('gitalk-container')
+</script>
+
+
+
+
+
+    </div>
+    <button class="anchor"><i class="fa fa-anchor"></i></button>
+    <div class="right">
+        <div class="wrap">
+
+
+            <!-- codefund ads -->
+            
+
+            <!-- Content -->
+            <div class="side content">
+                <div>
+                    Content
+                </div>
+                <ul id="content-side" class="content-ul">
+                    <li><a href="#chinese">中文</a></li>
+                    <li><a href="#similar_posts">Similar Posts</a></li>
+                    <li><a href="#comments">Comments</a></li>
+                </ul>
+            </div>
+
+            <!-- baidu ads -->
+            
+
+            <br>
+            <div class="side">
+                <div>
+                    <i class="fa fa-external-link"></i>
+                    Links
+                </div>
+                <ul class="content-ul">
+                  <li><a href="http://github.com/waruqi/tbox">tbox</a></li>
+                  <li><a href="http://www.xmake.io">xmake</a></li>
+                  <li><a href="https://github.com/waruqi">github</a></li>
+                </ul>
+            </div> 
+
+            <!-- google ads -->
+            
+
+            <!-- baidu ads -->
+            
+
+            <!-- chitika ads -->
+            
+        </div>
+    </div>
+
+    <!-- baidu ads -->
+    
+</div>
+<script>
+/**
+ * target _blank
+ */
+(function() {
+    var aTags = document.querySelectorAll('article a:not([id])')
+    for (var i = 0; i < aTags.length; i++) {
+        aTags[i].setAttribute('target', '_blank')
+    }
+}());
+</script>
+<script src="/js/pageContent.js " charset="utf-8"></script>
+
+
+
+    <footer class="site-footer">
+    <div class="wrapper">
+        <p class="description">
+             Copyright (c) 2016-2020 tboox.org 
+        </p>
+        <p class="contact">
+            
+            <a href="https://github.com/waruqi" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a> 
+             
+            
+            <a href="mailto:waruqi@gmail.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a> 
+            
+            
+            <a href="https://twitter.com/waruqi" title="Twitter"><i class="fa fa-twitter" aria-hidden="true"></i></a> 
+            
+            <a href="/feed.xml" title="feed"><i class="fa fa-feed" aria-hidden="true"></i></a> 
+        </p>
+        <p class="power">
+            <span>
+                Site powered by <a href="https://jekyllrb.com/">Jekyll</a> & <a href="https://github.com/Gaohaoyang">HyG</a> & <a href="https://pages.github.com/">Github Pages</a>.
+            </span>
+        </p>
+    </div>
+</footer>
+
+    <div class="back-to-top">
+    <a href="#top" class="scroll">
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/scroll.min.js " charset="utf-8"></script>
+  </body>
+
+</html>

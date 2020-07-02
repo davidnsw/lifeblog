@@ -1,0 +1,1888 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+    <title>xmake从入门到精通10：多个子工程目标的依赖配置</title>
+    <meta name="description" content="xmake是一个基于Lua的轻量级现代化c/c++的项目构建工具，主要特点是：语法简单易上手，提供更加可读的项目维护，实现跨平台行为一致的构建体验。本文主要详细讲解下，如果在一个项目中维护和生成多个目标文件的生成，以及它们之间的依赖关系设置。  项目源码  官方文档target到底是什么？xmake的概念定义里，...">
+
+    
+    <meta name="keywords" content="xmake,lua,交叉编译,tboox" /> 
+
+    <!-- qq oauth -->
+    <meta property="qc:admins" content="5211601217706727767255" />
+
+    <!--icon -->
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="icon" sizes="192x192" href="/static/img/nice-highres.png" />
+	<link rel="apple-touch-icon-precomposed" href="/static/img/apple-touch-icon-57x57-precomposed.png" />
+	<link rel="apple-touch-icon-precomposed" sizes="72x72" href="/static/img/apple-touch-icon-72x72-precomposed.png" />
+	<link rel="apple-touch-icon-precomposed" sizes="114x114" href="/static/img/apple-touch-icon-114x114-precomposed.png" />
+	<link rel="apple-touch-icon-precomposed" sizes="144x144" href="/static/img/apple-touch-icon-144x144-precomposed.png" />
+	<link rel="apple-touch-icon-precomposed" sizes="180x180" href="/static/img/retinahd_icon.png" />
+	<meta name="msapplication-TileImage" content="/static/img/retinahd_icon.png" />
+	
+    <link rel="stylesheet" href=" /css/fontawesome/css/font-awesome.min.css ">
+    <link rel="stylesheet" href=" /css/main.css ">
+    <link rel="canonical" href="http://www.tboox.org/cn/2019/12/13/quickstart-10-target-deps/">
+    <link rel="alternate" type="application/rss+xml" title="TBOOX Open Source Project" href="http://www.tboox.org/feed.xml ">
+    <link rel="alternate" hreflang="en" href="http://www.tboox.org/" />
+    <link rel="alternate" hreflang="zh-Hans" href="http://www.tboox.org/cn/" />
+
+    <!-- css -->
+    <link href="/css/reward.css" rel="stylesheet" type="text/css"> 
+
+
+
+
+    <script type="text/javascript">
+    function isPC(){    
+        var userAgentInfo = navigator.userAgent;  
+        var Agents = new Array("Android", "iPhone", "SymbianOS", "Windows Phone", "iPad", "iPod");    
+        var flag = true;    
+        for (var v = 0; v < Agents.length; v++) {    
+            if (userAgentInfo.indexOf(Agents[v]) > 0) { flag = false; break; }    
+        }    
+        return flag;    
+    }
+    </script>
+
+<!-- baidu ads -->
+
+
+
+    <!-- baidu ads -->
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/cn" class="brand">TBOOX</a>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/?lang=0">
+                    
+                        <i class="fa fa-home"></i>English
+                    </a>
+                </li>
+
+                
+                    
+                    
+                    <li>
+                        
+                            
+                            <a href="/cn/project/">
+                            
+                        
+                            <i class="fa fa-bookmark"></i>项目
+                        </a>
+                    </li>
+                    
+                    
+                
+                    
+                    
+                    
+                
+                    
+                    
+                    <li>
+                        
+                            
+                            <a href="/cn/archive/">
+                            
+                        
+                            <i class="fa fa-archive"></i>归档
+                        </a>
+                    </li>
+                    
+                    
+                
+                    
+                    
+                    
+                
+                    
+                    
+                    <li>
+                        
+                            
+                            <a href="/cn/category/">
+                            
+                        
+                            <i class="fa fa-th-list"></i>分类
+                        </a>
+                    </li>
+                    
+                    
+                
+                    
+                    
+                    
+                
+                    
+                    
+                    <li>
+                        
+                            
+                            <a href="/cn/tag/">
+                            
+                        
+                            <i class="fa fa-tags"></i>标记
+                        </a>
+                    </li>
+                    
+                    
+                
+                    
+                    
+                    
+                
+                    
+                
+                    
+                    
+                    <li>
+                        
+                            
+                            <a href="/cn/docs/">
+                            
+                        
+                            <i class="fa fa-book"></i>文档
+                        </a>
+                    </li>
+                    
+                    
+                
+                    
+                    
+                    
+                
+                    
+                    
+                    <li>
+                        
+                            
+                            <a href="https://www.reddit.com/r/tboox/" target="_blank" >
+                            
+                        
+                            <i class="fa fa-forumbee"></i>社区
+                        </a>
+                    </li>
+                    
+                    
+                
+                    
+                    
+                    
+                
+                    
+                    
+                    <li>
+                        
+                            
+                            <a href="/cn/donation/">
+                            
+                        
+                            <i class="fa fa-heart"></i>捐助
+                        </a>
+                    </li>
+                    
+                    
+                
+                    
+                    
+                    
+                
+                    
+                    
+                    <li>
+                        
+                            
+                            <a href="/cn/about/">
+                            
+                        
+                            <i class="fa fa-user"></i>关于
+                        </a>
+                    </li>
+                    
+                    
+                
+                    
+                    
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                    
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+
+        <div class="page clearfix" post>
+    <div class="left">
+        <h1>xmake从入门到精通10：多个子工程目标的依赖配置</h1>
+        <div class="label">
+
+            <div class="label-card">
+                <i class="fa fa-calendar"></i>2019-12-13
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+            
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#xmake" title="Category: xmake" rel="category">xmake</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+            </div>
+
+            <div class="label-card">
+            
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+        <!--a href="/tag/#xmake" title="Tag: xmake" rel="tag">xmake</a-->
+        <a href="/cn/tag/#xmake" title="Tag: xmake" rel="tag">xmake</a>&nbsp;
+    
+        <!--a href="/tag/#lua" title="Tag: lua" rel="tag">lua</a-->
+        <a href="/cn/tag/#lua" title="Tag: lua" rel="tag">lua</a>&nbsp;
+    
+        <!--a href="/tag/#%E4%BA%A4%E5%8F%89%E7%BC%96%E8%AF%91" title="Tag: 交叉编译" rel="tag">交叉编译</a-->
+        <a href="/cn/tag/#交叉编译" title="Tag: 交叉编译" rel="tag">交叉编译</a>
+    
+  
+
+</span>
+
+            </div>
+
+        </div>
+        <hr>
+        <article itemscope itemtype="http://schema.org/BlogPosting">
+        <p>xmake是一个基于Lua的轻量级现代化c/c++的项目构建工具，主要特点是：语法简单易上手，提供更加可读的项目维护，实现跨平台行为一致的构建体验。</p>
+
+<p>本文主要详细讲解下，如果在一个项目中维护和生成多个目标文件的生成，以及它们之间的依赖关系设置。</p>
+
+<ul>
+  <li><a href="https://github.com/xmake-io/xmake">项目源码</a></li>
+  <li><a href="https://xmake.io/#/zh-cn/">官方文档</a></li>
+</ul>
+
+<h3 id="target到底是什么">target到底是什么？</h3>
+
+<p>xmake的概念定义里，一个独立的项目工程可能会有多个子工程组织在一起，每个子工程对应只能生成一个唯一的目标文件，例如：可执行程序，静态库或者动态库等。</p>
+
+<p>而这里所说的每个子工程就是xmake里面所说的<code class="highlighter-rouge">target</code>，字面意思就是<code class="highlighter-rouge">目标子工程</code>。</p>
+
+<p>因此每个子工程，我们都可以通过新增一个target在xmake.lua里面维护，例如：</p>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="n">target</span><span class="p">(</span><span class="s2">"test1"</span><span class="p">)</span>
+    <span class="n">set_kind</span><span class="p">(</span><span class="s2">"binary"</span><span class="p">)</span>
+    <span class="n">add_files</span><span class="p">(</span><span class="s2">"src/test1/*.c"</span><span class="p">)</span>
+    
+<span class="n">target</span><span class="p">(</span><span class="s2">"test2"</span><span class="p">)</span>
+    <span class="n">set_kind</span><span class="p">(</span><span class="s2">"binary"</span><span class="p">)</span>
+    <span class="n">add_files</span><span class="p">(</span><span class="s2">"src/test2/*.c"</span><span class="p">)</span>    
+</code></pre>
+</div>
+
+<p>上面我们就定义了两个独立的子工程目标，编译时候会生成两个互不依赖的可执行文件。</p>
+
+<h3 id="从根域继承全局设置">从根域继承全局设置</h3>
+
+<p>暂时先不谈target间的依赖问题，如果我们有许多通用设置，每个target下都得设置一遍，那会非常冗余，也不好维护。</p>
+
+<p>因此，我们可以把这些配置移到target域的外面，也就是根作用域中去设置，这样对当前xmake.lua以及所有子xmake.lua中的target都会生效，例如：</p>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="n">add_links</span><span class="p">(</span><span class="s2">"tbox"</span><span class="p">)</span>
+<span class="n">add_linkdirs</span><span class="p">(</span><span class="s2">"lib"</span><span class="p">)</span>
+<span class="n">add_includedirs</span><span class="p">(</span><span class="s2">"include"</span><span class="p">)</span>
+
+<span class="n">target</span><span class="p">(</span><span class="s2">"test1"</span><span class="p">)</span>
+    <span class="n">set_kind</span><span class="p">(</span><span class="s2">"binary"</span><span class="p">)</span>
+    <span class="n">add_files</span><span class="p">(</span><span class="s2">"src/test1/*.c"</span><span class="p">)</span>
+    
+<span class="n">target</span><span class="p">(</span><span class="s2">"test2"</span><span class="p">)</span>
+    <span class="n">set_kind</span><span class="p">(</span><span class="s2">"binary"</span><span class="p">)</span>
+    <span class="n">add_files</span><span class="p">(</span><span class="s2">"src/test2/*.c"</span><span class="p">)</span>    
+</code></pre>
+</div>
+
+<p>比如这两target都需要链接tbox库，放置在外层根域设置，test1和test2都能加上对应links。</p>
+
+<h3 id="目标间的依赖设置">目标间的依赖设置</h3>
+
+<p>那如果某个target需要用到另外一个tatget生成的静态库，应该怎么配置呢？</p>
+
+<p>一种方式就是通过<code class="highlighter-rouge">add_linkdirs</code>和<code class="highlighter-rouge">add_links</code>手动指定对应target最后生成的目录库所在目录，然后把链接加上。</p>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="n">target</span><span class="p">(</span><span class="s2">"foo"</span><span class="p">)</span>
+    <span class="n">set_kind</span><span class="p">(</span><span class="s2">"static"</span><span class="p">)</span>
+    <span class="n">add_files</span><span class="p">(</span><span class="s2">"foo/*.c"</span><span class="p">)</span>
+    <span class="n">add_defines</span><span class="p">(</span><span class="s2">"FOO"</span><span class="p">)</span>
+
+<span class="n">target</span><span class="p">(</span><span class="s2">"test1"</span><span class="p">)</span>
+    <span class="n">set_kind</span><span class="p">(</span><span class="s2">"binary"</span><span class="p">)</span>
+    <span class="n">add_includedirs</span><span class="p">(</span><span class="s2">"foo/inc"</span><span class="p">)</span>
+    <span class="n">add_links</span><span class="p">(</span><span class="s2">"foo"</span><span class="p">)</span>
+    <span class="n">add_linkdirs</span><span class="p">(</span><span class="s2">"$(buildir)"</span><span class="p">)</span>
+    <span class="n">add_files</span><span class="p">(</span><span class="s2">"test1/*.c"</span><span class="p">)</span>
+    <span class="n">add_defines</span><span class="p">(</span><span class="s2">"FOO"</span><span class="p">)</span>
+    
+<span class="n">target</span><span class="p">(</span><span class="s2">"test2"</span><span class="p">)</span>
+    <span class="n">set_kind</span><span class="p">(</span><span class="s2">"binary"</span><span class="p">)</span>
+    <span class="n">add_includedirs</span><span class="p">(</span><span class="s2">"foo/inc"</span><span class="p">)</span>
+    <span class="n">add_links</span><span class="p">(</span><span class="s2">"foo"</span><span class="p">)</span>
+    <span class="n">add_linkdirs</span><span class="p">(</span><span class="s2">"$(buildir)"</span><span class="p">)</span>
+    <span class="n">add_files</span><span class="p">(</span><span class="s2">"test2/*.c"</span><span class="p">)</span>
+    <span class="n">add_defines</span><span class="p">(</span><span class="s2">"FOO"</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<p>上述配置中，test1和test2都会用到libfoo库，并且需要获取到libfoo库的头文件路径，库路径和链接，并且在使用过程中还需要额外设置<code class="highlighter-rouge">-DFOO</code>宏定义开关才行。</p>
+
+<p>看上去没啥，其实这么写有两个问题：</p>
+
+<ol>
+  <li>test目标和另外两个库目标之间是有编译顺序依赖的，如果test先编译就会提示链接库找不到</li>
+  <li>配置太过繁琐不好维护，test1和test2有很多冗余配置</li>
+</ol>
+
+<p>那有没有更加简单可靠的配置方式呢，其实我们只需要<code class="highlighter-rouge">add_deps</code>来对target间配置上依赖关系即可。</p>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="n">target</span><span class="p">(</span><span class="s2">"foo"</span><span class="p">)</span>
+    <span class="n">set_kind</span><span class="p">(</span><span class="s2">"static"</span><span class="p">)</span>
+    <span class="n">add_files</span><span class="p">(</span><span class="s2">"*.c"</span><span class="p">)</span>
+    <span class="n">add_defines</span><span class="p">(</span><span class="s2">"FOO"</span><span class="p">,</span> <span class="p">{</span><span class="n">public</span> <span class="o">=</span> <span class="kc">true</span><span class="p">})</span>
+    <span class="n">add_includedirs</span><span class="p">(</span><span class="s2">"foo/inc"</span><span class="p">,</span> <span class="p">{</span><span class="n">public</span> <span class="o">=</span> <span class="kc">true</span><span class="p">})</span>
+
+<span class="n">target</span><span class="p">(</span><span class="s2">"test1"</span><span class="p">)</span>
+    <span class="n">set_kind</span><span class="p">(</span><span class="s2">"binary"</span><span class="p">)</span>
+    <span class="n">add_deps</span><span class="p">(</span><span class="s2">"foo"</span><span class="p">)</span>
+    <span class="n">add_files</span><span class="p">(</span><span class="s2">"test1/*.c"</span><span class="p">)</span>
+    
+<span class="n">target</span><span class="p">(</span><span class="s2">"test2"</span><span class="p">)</span>
+    <span class="n">set_kind</span><span class="p">(</span><span class="s2">"binary"</span><span class="p">)</span>
+    <span class="n">add_deps</span><span class="p">(</span><span class="s2">"foo"</span><span class="p">)</span>
+    <span class="n">add_files</span><span class="p">(</span><span class="s2">"test2/*.c"</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<p>对比下，test1和test2的配置，是不是精简了好多？仅仅通过<code class="highlighter-rouge">add_deps("foo")</code>就继承了libfoo的所有导出设置：linkdirs, links, includedirs以及defines</p>
+
+<p>其中target自身生成的库默认就会自动导出链接设置，而includedirs和defines通过设置public属性，我们也将它们标记为导出，这样可以被test目标继承到。</p>
+
+<p>并且，现在有了依赖关系，xmake在编译的时候，会自动处理这些target之间的编译顺序，保证不会出现链接的时候，libfoo库还没有生成的问题。</p>
+
+<h3 id="依赖继承的进一步解析">依赖继承的进一步解析</h3>
+
+<h4 id="级联依赖继承">级联依赖继承</h4>
+
+<p>根据上文所说，target会自动继承依赖目标中的配置和属性，不需要额外调用<code class="highlighter-rouge">add_links</code>, <code class="highlighter-rouge">add_linkdirs</code>和<code class="highlighter-rouge">add_rpathdirs</code>等接口去关联依赖目标了。</p>
+
+<p>并且继承关系是支持级联的，例如：</p>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="n">target</span><span class="p">(</span><span class="s2">"library1"</span><span class="p">)</span>
+    <span class="n">set_kind</span><span class="p">(</span><span class="s2">"static"</span><span class="p">)</span>
+    <span class="n">add_files</span><span class="p">(</span><span class="s2">"*.c"</span><span class="p">)</span>
+    <span class="n">add_includedirs</span><span class="p">(</span><span class="s2">"inc"</span><span class="p">)</span> <span class="c1">-- 默认私有头文件目录不会被继承</span>
+    <span class="n">add_includedirs</span><span class="p">(</span><span class="s2">"inc1"</span><span class="p">,</span> <span class="p">{</span><span class="n">public</span> <span class="o">=</span> <span class="kc">true</span><span class="p">})</span> <span class="c1">-- 此处的头文件相关目录也会被继承</span>
+
+<span class="n">target</span><span class="p">(</span><span class="s2">"library2"</span><span class="p">)</span>
+    <span class="n">set_kind</span><span class="p">(</span><span class="s2">"static"</span><span class="p">)</span>
+    <span class="n">add_deps</span><span class="p">(</span><span class="s2">"library1"</span><span class="p">)</span>
+    <span class="n">add_files</span><span class="p">(</span><span class="s2">"*.c"</span><span class="p">)</span>
+
+<span class="n">target</span><span class="p">(</span><span class="s2">"test"</span><span class="p">)</span>
+    <span class="n">set_kind</span><span class="p">(</span><span class="s2">"binary"</span><span class="p">)</span>
+    <span class="n">add_deps</span><span class="p">(</span><span class="s2">"library2"</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<p>上面的配置中，test依赖library2，然后library2又依赖library1，那么通过<code class="highlighter-rouge">add_deps</code>仅仅添加library2的依赖，test就可以完整继承整个依赖链上的所有导出设置。</p>
+
+<h4 id="禁用默认的继承行为">禁用默认的继承行为</h4>
+
+<p>那如果我们不想继承依赖target的任何配置，如何操作呢？</p>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="n">add_deps</span><span class="p">(</span><span class="s2">"dep1"</span><span class="p">,</span> <span class="s2">"dep2"</span><span class="p">,</span> <span class="p">{</span><span class="n">inherit</span> <span class="o">=</span> <span class="kc">false</span><span class="p">})</span>
+</code></pre>
+</div>
+
+<p>通过显式设置inherit配置，来告诉xmake，这两个依赖的配置是否需要被继承，如果不设置，默认就是启用继承的。</p>
+
+<h4 id="可继承的导出属性详解">可继承的导出属性详解</h4>
+
+<p>上文，我们还通过 <code class="highlighter-rouge">add_includedirs("inc1", {public = true})</code>, 设置public为true, 将includedirs的设置公开给其他依赖的子target继承。</p>
+
+<p>目前对于target的编译链接flags相关接口设置，都是支持继承属性的，可以人为控制是否需要导出给其他target来依赖继承，目前支持的属性有：</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>描述</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>private</td>
+      <td>默认设置，作为当前target的私有配置，不会被依赖的其他target所继承</td>
+    </tr>
+    <tr>
+      <td>public</td>
+      <td>公有配置，当前target，依赖的子target都会被设置</td>
+    </tr>
+    <tr>
+      <td>interface</td>
+      <td>接口设置，仅被依赖的子target所继承设置，当前target不参与</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>这个其实参考借鉴了cmake的设计，目前xmake中只要跟target相关的所有编译链接设置接口，都是支持可见性导出的，例如：<code class="highlighter-rouge">add_includedirs</code>, <code class="highlighter-rouge">add_defines</code>, <code class="highlighter-rouge">add_cflags</code>等等。</p>
+
+<p>关于这块的详细信息，可以看下：https://github.com/xmake-io/xmake/issues/368</p>
+
+
+        </article>
+        <hr>
+
+        <!-- baidu ads -->
+        
+
+        <!-- reward -->
+        <div style="text-align: center;">
+            <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+              <span>赏</span>
+            </button>
+            <div id="QR" style="display: none;">
+                <div id="wechat" style="display: inline-block">
+                  <img id="wechat_qr" src="/static/img/weixin.png" alt="WeChat Pay"/>
+                  <p>微信打赏</p>
+                </div>
+                <div id="alipay" style="display: inline-block">
+                  <img id="alipay_qr" src="/static/img/alipay.png" alt="Alipay"/>
+                  <p>支付宝打赏</p>
+                </div>
+            </div>
+        </div>
+
+        
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+        
+
+        
+        
+            
+        
+            
+            
+            
+                
+                    
+                        
+                        <h2 id="similar_posts">相关文章</h2>
+                        <ul>
+                        
+                        <li class="relatedPost">
+                            <a href="/cn/2020/06/28/xmake-update-v2.3.5/">xmake v2.3.5 发布, 多工具链灵活切换支持
+                            
+                            </a>
+                        </li>
+                        
+                        
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+            
+            
+        
+            
+        
+            
+            
+            
+                
+                    
+                        
+                        <li class="relatedPost">
+                            <a href="/cn/2020/06/05/xmake-update-v2.3.4/">xmake v2.3.4 发布, 更加完善的工具链支持
+                            
+                            </a>
+                        </li>
+                        
+                        
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+            
+            
+        
+            
+        
+            
+            
+            
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                        
+                        <li class="relatedPost">
+                            <a href="/cn/2020/05/06/ltui-v1.7/">LTUI v1.7 发布, 一个基于lua的跨平台字符终端UI界面库
+                            
+                            </a>
+                        </li>
+                        
+                        
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+            
+            
+        
+            
+        
+            
+            
+            
+                
+                    
+                        
+                        <li class="relatedPost">
+                            <a href="/cn/2020/04/27/xmake-update-v2.3.3/">xmake v2.3.3 发布, 新增iOS/MacOS Framework和App构建支持
+                            
+                            </a>
+                        </li>
+                        
+                        
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+            
+            
+        
+            
+            
+            
+                
+                    
+                        
+                        <li class="relatedPost">
+                            <a href="/cn/2020/04/26/luject/">一个静态注入动态库的工具: luject
+                            
+                            </a>
+                        </li>
+                        
+                        
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+            
+            
+        
+            
+        
+        
+            </ul>
+        
+
+        <div class="post-recent">
+    <div class="pre">
+
+        
+
+        
+
+        
+        
+        <p><strong>上一篇</strong> <a href="/cn/2019/12/05/quickstart-9-cross-compile/">xmake从入门到精通9：交叉编译详解</a></p>
+        
+    </div>
+
+    <div class="nex">
+
+        
+
+        
+
+        
+        
+        <p><strong>下一篇</strong> <a href="/cn/2019/12/21/xmake-update-v2.2.9/">xmake v2.2.9 发布, 新增c++20 modules的实验性支持</a></p>
+        
+    </div>
+</div>
+
+
+        <h2 id="comments">评论</h2>
+        
+
+
+
+
+
+
+<div id="gitalk-container"></div>
+<link rel="stylesheet" href="/css/gitalk.css">
+<script src="/js/gitalk.min.js"></script>
+
+<script>
+const gitalk = new Gitalk({
+  clientID: '73946dc1d9e2276ad0da',
+  clientSecret: '12a3cb94361ba3ebc6ecb68cf80d592bfaa8106d',
+  repo: 'tboox.github.io',
+  owner: 'waruqi',
+  admin: ['waruqi'],
+  id: location.pathname,       
+  language: 'zh-CN',
+  distractionFreeMode: false  
+})
+
+gitalk.render('gitalk-container')
+</script>
+
+
+
+
+
+    </div>
+    <button class="anchor"><i class="fa fa-anchor"></i></button>
+    <div class="right">
+        <div class="wrap">
+
+            <!-- codefund ads -->
+            
+
+            <!-- Content -->
+            <div class="side content">
+                <div>
+                    内容
+                </div>
+                <ul id="content-side" class="content-ul">
+                    <li><a href="#english">English</a></li>
+                    <li><a href="#similar_posts">相关文章</a></li>
+                    <li><a href="#comments">评论</a></li>
+                </ul>
+            </div>
+
+
+            <!-- baidu ads -->
+            
+            
+            <br>
+            <div class="side">
+                <div>
+                    <i class="fa fa-external-link"></i>
+                    链接
+                </div>
+                <ul class="content-ul">
+                  <li><a href="http://github.com/waruqi/tbox">tbox</a></li>
+                  <li><a href="http://www.xmake.io">xmake</a></li>
+                  <li><a href="https://github.com/waruqi">github</a></li>
+                </ul>
+            </div> 
+
+            <!-- qqgroup -->
+            <br>
+            <div class="side">
+                <div>
+                    <i class="fa fa-external-link"></i>
+                    技术交流群（QQ）
+                </div>
+                <img src="/static/img/qqgroup.png" alt="qqgroup" width="256" height="284">
+            </div> 
+
+            <!-- google ads -->
+            
+
+            <!-- baidu ads -->
+            
+
+        </div>
+    </div>
+
+    <!-- baidu ads -->
+    
+</div>
+<script>
+/**
+ * target _blank
+ */
+(function() {
+    var aTags = document.querySelectorAll('article a:not([id])')
+    for (var i = 0; i < aTags.length; i++) {
+        aTags[i].setAttribute('target', '_blank')
+    }
+}());
+</script>
+<script src="/js/pageContent.js " charset="utf-8"></script>
+
+
+
+    <footer class="site-footer">
+    <div class="wrapper">
+        <p class="description">
+             Copyright (c) 2016-2020 tboox.org 
+        </p>
+        <p class="contact">
+            
+            <a href="https://github.com/waruqi" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a> 
+             
+            
+            <a href="mailto:waruqi@gmail.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a> 
+            
+            
+            <a href="https://twitter.com/waruqi" title="Twitter"><i class="fa fa-twitter" aria-hidden="true"></i></a> 
+            
+            <a href="/feed.xml" title="feed"><i class="fa fa-feed" aria-hidden="true"></i></a> 
+        </p>
+        <p class="power">
+            <span>
+                Site powered by <a href="https://jekyllrb.com/">Jekyll</a> & <a href="https://github.com/Gaohaoyang">HyG</a> & <a href="https://pages.github.com/">Github Pages</a>.
+            </span>
+        </p>
+    </div>
+</footer>
+
+    <div class="back-to-top">
+    <a href="#top" class="scroll">
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/scroll.min.js " charset="utf-8"></script>
+  </body>
+
+</html>

@@ -1,0 +1,2201 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+    <title>Xmake Getting Started Tutorial 5: Introduction to Android platform compilation</title>
+    <meta name="description" content="xmake is a lightweight and modern c/c++ project building tool based on Lua. It’s main features are: easy to use syntax, easy to use project maintenance, and ...">
+
+    
+    <meta name="keywords" content="xmake,lua,android,jni,tboox" /> 
+
+    <!-- qq oauth -->
+    <meta property="qc:admins" content="5211601217706727767255" />
+
+    <!--icon -->
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="icon" sizes="192x192" href="/static/img/nice-highres.png" />
+	<link rel="apple-touch-icon-precomposed" href="/static/img/apple-touch-icon-57x57-precomposed.png" />
+	<link rel="apple-touch-icon-precomposed" sizes="72x72" href="/static/img/apple-touch-icon-72x72-precomposed.png" />
+	<link rel="apple-touch-icon-precomposed" sizes="114x114" href="/static/img/apple-touch-icon-114x114-precomposed.png" />
+	<link rel="apple-touch-icon-precomposed" sizes="144x144" href="/static/img/apple-touch-icon-144x144-precomposed.png" />
+	<link rel="apple-touch-icon-precomposed" sizes="180x180" href="/static/img/retinahd_icon.png" />
+	<meta name="msapplication-TileImage" content="/static/img/retinahd_icon.png" />
+	
+    <link rel="stylesheet" href=" /css/fontawesome/css/font-awesome.min.css ">
+    <link rel="stylesheet" href=" /css/main.css ">
+    <link rel="canonical" href="http://www.tboox.org/2019/11/15/quickstart-5-build-android/">
+    <link rel="alternate" type="application/rss+xml" title="TBOOX Open Source Project" href="http://www.tboox.org/feed.xml ">
+    <link rel="alternate" hreflang="en" href="http://www.tboox.org/" />
+    <link rel="alternate" hreflang="zh-Hans" href="http://www.tboox.org/cn/" />
+
+
+
+
+    <script type="text/javascript">
+    function isPC(){    
+        var userAgentInfo = navigator.userAgent;  
+        var Agents = new Array("Android", "iPhone", "SymbianOS", "Windows Phone", "iPad", "iPod");    
+        var flag = true;    
+        for (var v = 0; v < Agents.length; v++) {    
+            if (userAgentInfo.indexOf(Agents[v]) > 0) { flag = false; break; }    
+        }    
+        return flag;    
+    }
+    </script>
+
+<!-- baidu ads -->
+
+
+
+    <!-- baidu ads -->
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/" class="brand">TBOOX</a>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/cn?lang=0">
+                    
+                        <i class="fa fa-home"></i>中文
+                    </a>
+                </li>
+
+                
+                    
+                     
+                    
+                
+                    
+                     
+                     
+                    <li>
+
+                        
+                            
+                            <a href="/project/">
+                            
+                        
+                            <i class="fa fa-bookmark"></i>Projects
+                        </a>
+                    </li>
+                    
+                    
+                    
+                
+                    
+                     
+                    
+                
+                    
+                     
+                     
+                    <li>
+
+                        
+                            
+                            <a href="/archive/">
+                            
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                    
+                    
+                
+                    
+                     
+                    
+                
+                    
+                     
+                     
+                    <li>
+
+                        
+                            
+                            <a href="/category/">
+                            
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                    
+                    
+                
+                    
+                     
+                    
+                
+                    
+                     
+                     
+                    <li>
+
+                        
+                            
+                            <a href="/tag/">
+                            
+                        
+                            <i class="fa fa-tags"></i>Tags
+                        </a>
+                    </li>
+                    
+                    
+                    
+                
+                    
+                
+                    
+                     
+                    
+                
+                    
+                     
+                     
+                    <li>
+
+                        
+                            
+                            <a href="/docs/">
+                            
+                        
+                            <i class="fa fa-book"></i>Documents
+                        </a>
+                    </li>
+                    
+                    
+                    
+                
+                    
+                     
+                    
+                
+                    
+                     
+                     
+                    <li>
+
+                        
+                            
+                            <a href="https://www.reddit.com/r/tboox/" target="_blank" >
+                            
+                        
+                            <i class="fa fa-forumbee"></i>Community
+                        </a>
+                    </li>
+                    
+                    
+                    
+                
+                    
+                     
+                    
+                
+                    
+                     
+                     
+                    <li>
+
+                        
+                            
+                            <a href="/donation/">
+                            
+                        
+                            <i class="fa fa-heart"></i>Donate
+                        </a>
+                    </li>
+                    
+                    
+                    
+                
+                    
+                     
+                    
+                
+                    
+                     
+                     
+                    <li>
+
+                        
+                            
+                            <a href="/about/">
+                            
+                        
+                            <i class="fa fa-user"></i>About
+                        </a>
+                    </li>
+                    
+                    
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                     
+                     
+                    
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+
+        <div class="page clearfix" post>
+    <div class="left">
+        <h1>Xmake Getting Started Tutorial 5: Introduction to Android platform compilation</h1>
+        <div class="label">
+
+            <div class="label-card">
+                <i class="fa fa-calendar"></i>2019-11-15
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+            
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#xmake" title="Category: xmake" rel="category">xmake</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+            </div>
+
+            <div class="label-card">
+            
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+        <!--a href="/tag/#xmake" title="Tag: xmake" rel="tag">xmake</a-->
+        <a href="/tag/#xmake" title="Tag: xmake" rel="tag">xmake</a>&nbsp;
+    
+        <!--a href="/tag/#lua" title="Tag: lua" rel="tag">lua</a-->
+        <a href="/tag/#lua" title="Tag: lua" rel="tag">lua</a>&nbsp;
+    
+        <!--a href="/tag/#android" title="Tag: android" rel="tag">android</a-->
+        <a href="/tag/#android" title="Tag: android" rel="tag">android</a>&nbsp;
+    
+        <!--a href="/tag/#jni" title="Tag: jni" rel="tag">jni</a-->
+        <a href="/tag/#jni" title="Tag: jni" rel="tag">jni</a>
+    
+  
+
+</span>
+
+            </div>
+
+        </div>
+        <hr>
+        <article itemscope itemtype="http://schema.org/BlogPosting">
+        <p>xmake is a lightweight and modern c/c++ project building tool based on Lua. It’s main features are: easy to use syntax, easy to use project maintenance, 
+and a consistent build experience across platforms.</p>
+
+<p>This article mainly explains in detail how to compile libraries and executable programs that can run under android through xmake.</p>
+
+<ul>
+  <li><a href="https://github.com/xmake-io/xmake">Project Source</a></li>
+  <li><a href="https://xmake.io">Official Document</a></li>
+</ul>
+
+<h3 id="ready-to-work">Ready to work</h3>
+
+<p>First of all, we need to prepare the ndk toolchain necessary for compiling the android native library. 
+If you haven’t, you can download and decompress it from the official websit: <a href="https://developer.android.com/ndk">Android NDK</a></p>
+
+<p>If you want to get better backward compatibility, you can choose the r16 version, because this is the last version that supports armeabi. If there is no special requirement, you can download the latest version directly.</p>
+
+<h3 id="ndk-integration-and-compilation">NDK integration and compilation</h3>
+
+<h4 id="manually-configure-the-ndk">Manually configure the NDK</h4>
+
+<p>We only need to pass the decompressed ndk directory path to xmake to complete the configuration, and we can compile directly, for example:</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>xmake f -p android --ndk<span class="o">=</span>~/downloads/android-ndk-r19c
+<span class="gp">$ </span>xmake
+</code></pre>
+</div>
+
+<p>Among them, <code class="highlighter-rouge">-p android</code> is used to switch to the android platform, because if you do not specify a platform, the target program of the current host platform will be compiled by default.</p>
+
+<p>Generally, if there is no special requirement, the above configuration can complete the compilation of the android native program. Currently, xmake has built-in support for the generation of three types of target files: binary, static, and shared, which correspond to executable programs and .a static libraries. .so dynamic library.</p>
+
+<h4 id="global-configuration-of-ndk-paths">Global configuration of NDK paths</h4>
+
+<p>The <code class="highlighter-rouge">xmake f/config</code> command is only for the configuration of the current project. If you often need to set the ndk path again during cross-platform compilation and configuration switching, it is still a little tedious.</p>
+
+<p>We can set it through the <code class="highlighter-rouge">xmake g/global</code> global configuration command to ensure it takes effect permanently.</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>xmake g --ndk<span class="o">=</span>~/xxx/android-ndk-r19c
+</code></pre>
+</div>
+
+<p>We can also ensure the permanent effect by setting the <code class="highlighter-rouge">ANDROID_NDK_HOME</code> global environment variable, which is similar to the effect of the above command configuration.</p>
+
+<h4 id="automatic-detection-of-ndk-paths">Automatic detection of NDK paths</h4>
+
+<p>Generally, even if the ndk path is not configured, xmake will still try to detect some common paths by default. For example, under macos, it will automatically detect whether the following paths exist:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>~/Library/Android/sdk/ndk-bundle
+</code></pre>
+</div>
+
+<p>This is the SDK directory automatically created by android studio after downloading the Mac, and the common place for the ndk.</p>
+
+<p>Or try to probe from the environment variable <code class="highlighter-rouge">ANDROID_NDK_HOME</code>, if it exists.</p>
+
+<p>If it can be detected, there is no need to configure it manually.</p>
+
+<h3 id="c-stl-library-configuration-switch">C++ STL library configuration switch</h3>
+
+<p>First, let’s introduce the three stl library versions provided by ndk.</p>
+
+<ul>
+  <li>stlport: the stl library built in early ndk, now basically obsolete</li>
+  <li>gnustl: stl library mainly used before ndk r16b, but since r16b, it has also been removed by google</li>
+  <li>llvm-c++: newer ndk built-in stl libraries after r16b</li>
+</ul>
+
+<p>Therefore, when we compile the android library, we need to choose stl and choose the appropriate ndk version according to our needs. Xmake usually uses the llvm-c++ library by default if possible. If it finds that the current ndk version is older, it will try to degrade Go to gnustl.</p>
+
+<p>Users can also manually modify the version of the stl library, for example:</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>xmake f -p android --ndk<span class="o">=</span>xxxx --ndk_cxxstl<span class="o">=</span>gnustl_shared
+</code></pre>
+</div>
+
+<p>Specifically, for the configuration value of the ndk_cxxstl option, you can type help to view, <code class="highlighter-rouge">xmake f --help</code>, mainly:</p>
+
+<ul>
+  <li><code class="highlighter-rouge">llvmstl_static</code></li>
+  <li><code class="highlighter-rouge">llvmstl_shared</code></li>
+  <li><code class="highlighter-rouge">gnustl_static</code></li>
+  <li><code class="highlighter-rouge">gnustl_shared</code></li>
+  <li><code class="highlighter-rouge">stlport_static</code></li>
+  <li><code class="highlighter-rouge">stlport_shared</code></li>
+</ul>
+
+<h3 id="api-version-settings">API Version Settings</h3>
+
+<p>If during the compilation process, some libc library symbols are not found, it is usually possible that the api version is not set correctly, because some libc functions exist only in higher version apis.</p>
+
+<p>At this time, we can solve it by trying to manually modify the api version:</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>xmake f -p android --ndk<span class="o">=</span>xxx --ndk_sdkver<span class="o">=</span>16
+</code></pre>
+</div>
+
+<h3 id="switch-compilation-architecture">Switch compilation architecture</h3>
+
+<p>At present xmake provides configuration of these architectures <code class="highlighter-rouge">armv7-a</code>,<code class="highlighter-rouge"> arm64-v8a</code>, <code class="highlighter-rouge">armv5te</code>,<code class="highlighter-rouge"> mips</code>, <code class="highlighter-rouge">mips64</code>,<code class="highlighter-rouge"> i386</code>, <code class="highlighter-rouge">x86_64</code>. If arch is not specified, then armv7 will be used by default. Architecture.</p>
+
+<p>Manually modify the arch as follows:</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>xmake f -p android --ndk<span class="o">=</span>xxx -a arm64-v8a
+</code></pre>
+</div>
+
+<h3 id="android-related-configuration-settings">Android related configuration settings</h3>
+
+<p>If the project needs to configure some compilation settings unique to the android platform, such as adding specific macro switches, link libraries, etc., you can use <code class="highlighter-rouge">is_plat("android")</code> to determine the processing in xmake.lua.</p>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="n">target</span> <span class="p">(</span><span class="s2">"test"</span><span class="p">)</span>
+<span class="err">    </span><span class="n">set_kind</span> <span class="p">(</span><span class="s2">"shared"</span><span class="p">)</span>
+<span class="err">    </span><span class="n">add_files</span> <span class="p">(</span><span class="s2">"src/*. c"</span><span class="p">)</span>
+<span class="err">    </span><span class="k">if</span> <span class="n">is_plat</span> <span class="p">(</span><span class="s2">"android"</span><span class="p">)</span> <span class="k">then</span>
+<span class="err">        </span><span class="n">add_defines</span> <span class="p">(</span><span class="s2">"ANDROID"</span><span class="p">)</span>
+<span class="err">        </span><span class="n">add_syslinks</span> <span class="p">(</span><span class="s2">"log"</span><span class="p">)</span>
+<span class="err">    </span><span class="k">end</span>
+</code></pre>
+</div>
+
+<h3 id="faq">FAQ</h3>
+
+<h4 id="what-should-i-do-if-i-cannot-find-some-libcstl-library-header-files">What should I do if I cannot find some libc/stl library header files?</h4>
+
+<p>You can try to modify the stl library version and api version to solve it. For example, ndk r16b recommends using the gnustl library, because this version of the llvmc++ library has just been integrated shortly, there are many problems, and it is easy to encounter various compilation problems during use.</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>xmake f -p android --ndk<span class="o">=</span>xxxx --ndk_cxxstl<span class="o">=</span>gnustl_shared --ndk_sdkver<span class="o">=</span>16
+</code></pre>
+</div>
+
+<h4 id="the-compiled-executable-does-not-run-on-the-device">The compiled executable does not run on the device?</h4>
+
+<p>Usually the api version is set too high, causing incompatibility issues, you can try to reduce the api version.</p>
+
+        </article>
+        <hr>
+
+        <!-- baidu ads -->
+        
+
+        
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+                    
+                    <h2 id="chinese">中文</h2>
+                    <ul>
+                    
+                    <li class="relatedPost">
+                        <a href="/cn/2019/11/15/quickstart-5-build-android/">xmake从入门到精通5：Android平台编译详解
+                        
+                        </a>
+                    </li>
+                    
+                    
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+        
+            </ul>
+        
+
+        
+        
+            
+            
+            
+                
+                    
+                        
+                        <h2 id="similar_posts">Similar Posts</h2>
+                        <ul>
+                        
+                        <li class="relatedPost">
+                            <a href="/2020/06/28/xmake-update-v2.3.5/">xmake v2.3.5 released, Multi-toolchain flexible switching support
+                            
+                            </a>
+                        </li>
+                        
+                        
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+            
+        
+            
+        
+            
+            
+            
+                
+                    
+                        
+                        <li class="relatedPost">
+                            <a href="/2020/06/05/xmake-update-v2.3.4/">xmake v2.3.4 released, better toolchain support
+                            
+                            </a>
+                        </li>
+                        
+                        
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+            
+        
+            
+        
+            
+            
+            
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                        
+                        <li class="relatedPost">
+                            <a href="/2020/05/06/ltui-v1.7/">LTUI v1.7 released, A cross-platform terminal ui library based on Lua
+                            
+                            </a>
+                        </li>
+                        
+                        
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+            
+        
+            
+        
+            
+            
+            
+                
+                    
+                        
+                        <li class="relatedPost">
+                            <a href="/2020/04/27/xmake-update-v2.3.3/">xmake v2.3.3 released, Support for building iOS/MacOS Framework and App
+                            
+                            </a>
+                        </li>
+                        
+                        
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+            
+        
+            
+        
+            
+        
+            
+            
+            
+                
+                    
+                        
+                        <li class="relatedPost">
+                            <a href="/2020/04/17/xmake-gradle-v1.0.7/">xmake-gradle v1.0.7 released, Integrate xmake to quickly build Android JNI program
+                            
+                            </a>
+                        </li>
+                        
+                        
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+            
+        
+        
+            </ul>
+        
+
+        <div class="post-recent">
+    <div class="pre">
+
+        
+
+        
+
+        
+        
+        
+
+        
+
+        
+
+        
+        
+        <p><strong>Prev Post</strong> <a href="/2019/11/10/quickstart-4-basic-project-settings/">Xmake Getting Started Tutorial 4: C/C++ project description settings</a></p>
+        
+    </div>
+
+    <div class="nex">
+
+        
+
+        
+
+        
+        
+        
+
+        
+
+        
+
+        
+        
+        
+
+        
+
+        
+
+        
+        
+        
+
+        
+
+        
+
+        
+        
+        
+
+        
+
+        
+
+        
+        
+        
+
+        
+
+        
+
+        
+        
+        
+
+        
+
+        
+
+        
+        
+        <p><strong>Next Post</strong> <a href="/2019/12/21/xmake-update-v2.2.9/">xmake v2.2.9 released, Add experimental support for c++ 20 modules</a></p>
+        
+    </div>
+</div>
+
+
+        <h2 id="comments">Comments</h2>
+        
+
+
+
+
+
+
+<div id="gitalk-container"></div>
+<link rel="stylesheet" href="/css/gitalk.css">
+<script src="/js/gitalk.min.js"></script>
+
+<script>
+const gitalk = new Gitalk({
+  clientID: '73946dc1d9e2276ad0da',
+  clientSecret: '12a3cb94361ba3ebc6ecb68cf80d592bfaa8106d',
+  repo: 'tboox.github.io',
+  owner: 'waruqi',
+  admin: ['waruqi'],
+  id: location.pathname,      
+  language: 'en',
+  distractionFreeMode: false  
+})
+
+gitalk.render('gitalk-container')
+</script>
+
+
+
+
+
+    </div>
+    <button class="anchor"><i class="fa fa-anchor"></i></button>
+    <div class="right">
+        <div class="wrap">
+
+
+            <!-- codefund ads -->
+            
+
+            <!-- Content -->
+            <div class="side content">
+                <div>
+                    Content
+                </div>
+                <ul id="content-side" class="content-ul">
+                    <li><a href="#chinese">中文</a></li>
+                    <li><a href="#similar_posts">Similar Posts</a></li>
+                    <li><a href="#comments">Comments</a></li>
+                </ul>
+            </div>
+
+            <!-- baidu ads -->
+            
+
+            <br>
+            <div class="side">
+                <div>
+                    <i class="fa fa-external-link"></i>
+                    Links
+                </div>
+                <ul class="content-ul">
+                  <li><a href="http://github.com/waruqi/tbox">tbox</a></li>
+                  <li><a href="http://www.xmake.io">xmake</a></li>
+                  <li><a href="https://github.com/waruqi">github</a></li>
+                </ul>
+            </div> 
+
+            <!-- google ads -->
+            
+
+            <!-- baidu ads -->
+            
+
+            <!-- chitika ads -->
+            
+        </div>
+    </div>
+
+    <!-- baidu ads -->
+    
+</div>
+<script>
+/**
+ * target _blank
+ */
+(function() {
+    var aTags = document.querySelectorAll('article a:not([id])')
+    for (var i = 0; i < aTags.length; i++) {
+        aTags[i].setAttribute('target', '_blank')
+    }
+}());
+</script>
+<script src="/js/pageContent.js " charset="utf-8"></script>
+
+
+
+    <footer class="site-footer">
+    <div class="wrapper">
+        <p class="description">
+             Copyright (c) 2016-2020 tboox.org 
+        </p>
+        <p class="contact">
+            
+            <a href="https://github.com/waruqi" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a> 
+             
+            
+            <a href="mailto:waruqi@gmail.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a> 
+            
+            
+            <a href="https://twitter.com/waruqi" title="Twitter"><i class="fa fa-twitter" aria-hidden="true"></i></a> 
+            
+            <a href="/feed.xml" title="feed"><i class="fa fa-feed" aria-hidden="true"></i></a> 
+        </p>
+        <p class="power">
+            <span>
+                Site powered by <a href="https://jekyllrb.com/">Jekyll</a> & <a href="https://github.com/Gaohaoyang">HyG</a> & <a href="https://pages.github.com/">Github Pages</a>.
+            </span>
+        </p>
+    </div>
+</footer>
+
+    <div class="back-to-top">
+    <a href="#top" class="scroll">
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/scroll.min.js " charset="utf-8"></script>
+  </body>
+
+</html>

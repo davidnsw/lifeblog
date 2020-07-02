@@ -1,0 +1,1852 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+    <title>xmake高级特性之自定义选项</title>
+    <meta name="description" content="xmake还可以支持一些自定义选项开关，使得工程支持可选编译，方便工程的模块化管理。增加自定义编译开关我们拿一个实际的例子来说：我们想在自己的工程中增加一个新开关选项：hello， 如果这个开关被启用，会在target中添加特定的一些源码文件，但是这个开挂默认是不被启用的，需要通过配置xmake f --hell...">
+
+    
+    <meta name="keywords" content="xmake,自定义选项,tboox" /> 
+
+    <!-- qq oauth -->
+    <meta property="qc:admins" content="5211601217706727767255" />
+
+    <!--icon -->
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="icon" sizes="192x192" href="/static/img/nice-highres.png" />
+	<link rel="apple-touch-icon-precomposed" href="/static/img/apple-touch-icon-57x57-precomposed.png" />
+	<link rel="apple-touch-icon-precomposed" sizes="72x72" href="/static/img/apple-touch-icon-72x72-precomposed.png" />
+	<link rel="apple-touch-icon-precomposed" sizes="114x114" href="/static/img/apple-touch-icon-114x114-precomposed.png" />
+	<link rel="apple-touch-icon-precomposed" sizes="144x144" href="/static/img/apple-touch-icon-144x144-precomposed.png" />
+	<link rel="apple-touch-icon-precomposed" sizes="180x180" href="/static/img/retinahd_icon.png" />
+	<meta name="msapplication-TileImage" content="/static/img/retinahd_icon.png" />
+	
+    <link rel="stylesheet" href=" /css/fontawesome/css/font-awesome.min.css ">
+    <link rel="stylesheet" href=" /css/main.css ">
+    <link rel="canonical" href="http://www.tboox.org/cn/2016/08/07/custom-option/">
+    <link rel="alternate" type="application/rss+xml" title="TBOOX Open Source Project" href="http://www.tboox.org/feed.xml ">
+    <link rel="alternate" hreflang="en" href="http://www.tboox.org/" />
+    <link rel="alternate" hreflang="zh-Hans" href="http://www.tboox.org/cn/" />
+
+    <!-- css -->
+    <link href="/css/reward.css" rel="stylesheet" type="text/css"> 
+
+
+
+
+    <script type="text/javascript">
+    function isPC(){    
+        var userAgentInfo = navigator.userAgent;  
+        var Agents = new Array("Android", "iPhone", "SymbianOS", "Windows Phone", "iPad", "iPod");    
+        var flag = true;    
+        for (var v = 0; v < Agents.length; v++) {    
+            if (userAgentInfo.indexOf(Agents[v]) > 0) { flag = false; break; }    
+        }    
+        return flag;    
+    }
+    </script>
+
+<!-- baidu ads -->
+
+
+
+    <!-- baidu ads -->
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/cn" class="brand">TBOOX</a>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/?lang=0">
+                    
+                        <i class="fa fa-home"></i>English
+                    </a>
+                </li>
+
+                
+                    
+                    
+                    <li>
+                        
+                            
+                            <a href="/cn/project/">
+                            
+                        
+                            <i class="fa fa-bookmark"></i>项目
+                        </a>
+                    </li>
+                    
+                    
+                
+                    
+                    
+                    
+                
+                    
+                    
+                    <li>
+                        
+                            
+                            <a href="/cn/archive/">
+                            
+                        
+                            <i class="fa fa-archive"></i>归档
+                        </a>
+                    </li>
+                    
+                    
+                
+                    
+                    
+                    
+                
+                    
+                    
+                    <li>
+                        
+                            
+                            <a href="/cn/category/">
+                            
+                        
+                            <i class="fa fa-th-list"></i>分类
+                        </a>
+                    </li>
+                    
+                    
+                
+                    
+                    
+                    
+                
+                    
+                    
+                    <li>
+                        
+                            
+                            <a href="/cn/tag/">
+                            
+                        
+                            <i class="fa fa-tags"></i>标记
+                        </a>
+                    </li>
+                    
+                    
+                
+                    
+                    
+                    
+                
+                    
+                
+                    
+                    
+                    <li>
+                        
+                            
+                            <a href="/cn/docs/">
+                            
+                        
+                            <i class="fa fa-book"></i>文档
+                        </a>
+                    </li>
+                    
+                    
+                
+                    
+                    
+                    
+                
+                    
+                    
+                    <li>
+                        
+                            
+                            <a href="https://www.reddit.com/r/tboox/" target="_blank" >
+                            
+                        
+                            <i class="fa fa-forumbee"></i>社区
+                        </a>
+                    </li>
+                    
+                    
+                
+                    
+                    
+                    
+                
+                    
+                    
+                    <li>
+                        
+                            
+                            <a href="/cn/donation/">
+                            
+                        
+                            <i class="fa fa-heart"></i>捐助
+                        </a>
+                    </li>
+                    
+                    
+                
+                    
+                    
+                    
+                
+                    
+                    
+                    <li>
+                        
+                            
+                            <a href="/cn/about/">
+                            
+                        
+                            <i class="fa fa-user"></i>关于
+                        </a>
+                    </li>
+                    
+                    
+                
+                    
+                    
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                    
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+
+        <div class="page clearfix" post>
+    <div class="left">
+        <h1>xmake高级特性之自定义选项</h1>
+        <div class="label">
+
+            <div class="label-card">
+                <i class="fa fa-calendar"></i>2016-08-07
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+            
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#xmake" title="Category: xmake" rel="category">xmake</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+            </div>
+
+            <div class="label-card">
+            
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+        <!--a href="/tag/#xmake" title="Tag: xmake" rel="tag">xmake</a-->
+        <a href="/cn/tag/#xmake" title="Tag: xmake" rel="tag">xmake</a>&nbsp;
+    
+        <!--a href="/tag/#%E8%87%AA%E5%AE%9A%E4%B9%89%E9%80%89%E9%A1%B9" title="Tag: 自定义选项" rel="tag">自定义选项</a-->
+        <a href="/cn/tag/#自定义选项" title="Tag: 自定义选项" rel="tag">自定义选项</a>
+    
+  
+
+</span>
+
+            </div>
+
+        </div>
+        <hr>
+        <article itemscope itemtype="http://schema.org/BlogPosting">
+        <p>xmake还可以支持一些自定义选项开关，使得工程支持可选编译，方便工程的模块化管理。</p>
+
+<h2 id="增加自定义编译开关">增加自定义编译开关</h2>
+
+<p>我们拿一个实际的例子来说：</p>
+
+<p>我们想在自己的工程中增加一个新开关选项：hello， 如果这个开关被启用，会在target中添加特定的一些源码文件，但是这个开挂默认是不被启用的，需要通过配置<code class="highlighter-rouge">xmake f --hello=true</code>才会被链接和使用</p>
+
+<p>并且使用的时候，需要定义一些特殊的宏定义：<code class="highlighter-rouge">-DHELLO_TEST -DHELLO_ENABLE</code></p>
+
+<p>那么我们开始进行xmake.lua修改，过程并不复杂：</p>
+
+<ol>
+  <li>在xmake.lua的头部通过option接口定义一个名叫hello的开关选项</li>
+</ol>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code>
+<span class="c1">--定义一个名叫hello的开关选项，这个接口跟add_target是同级的，不要在add_target里面使用（使用了也没什么问题，只是不大好看）</span>
+<span class="n">option</span><span class="p">(</span><span class="s2">"hello"</span><span class="p">)</span>
+
+    <span class="c1">-- 默认禁用这个开关，需要手动xmake f --hello=true才会启用，当然你也可以默认启用它</span>
+    <span class="n">set_default</span><span class="p">(</span><span class="kc">false</span><span class="p">)</span>
+
+    <span class="c1">-- 定义一些宏开关，这个只有在hello被启用的时候才会被定义</span>
+    <span class="n">add_defines_if_ok</span><span class="p">(</span><span class="s2">"HELLO_ENABLE"</span><span class="p">,</span> <span class="s2">"HELLO_TEST"</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<ol>
+  <li>将定义好的hello开关选项，与你的target项目进行绑定</li>
+</ol>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code>
+<span class="c1">-- 添加一个test目标</span>
+<span class="n">target</span><span class="p">(</span><span class="s2">"test"</span><span class="p">)</span>
+    
+    <span class="c1">-- 生成可执行程序</span>
+    <span class="n">set_kind</span><span class="p">(</span><span class="s2">"binary"</span><span class="p">)</span>
+
+    <span class="c1">-- 绑定hello开关选项</span>
+    <span class="n">add_options</span><span class="p">(</span><span class="s2">"hello"</span><span class="p">)</span>
+
+    <span class="c1">-- 添加一些hello才需要的源码文件</span>
+    <span class="k">if</span> <span class="n">options</span><span class="p">(</span><span class="s2">"hello"</span><span class="p">)</span> <span class="k">then</span>
+        <span class="n">add_files</span><span class="p">(</span><span class="s2">"hello/*.c"</span><span class="p">)</span>
+    <span class="k">end</span>
+</code></pre>
+</div>
+
+<p>ok了，只要两步，接下来就是编译了：</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>
+<span class="c"># 直接编译，默认是禁用hello的，所以hello的相关代码，都没有被编译进去</span>
+<span class="gp">$ </span>xmake 
+
+<span class="c"># 接下来我们启用它，重新编译下，这个时候，hello/*.c的代码也被编译进去了，同时-DHELLO_TEST -DHELLO_ENABLE也被添加到编译选项中了</span>
+<span class="gp">$ </span>xmake f --hello<span class="o">=</span><span class="nb">true</span>
+<span class="gp">$ </span>xmake -r
+</code></pre>
+</div>
+
+<p>很方便吧。。只需两步就行。。接下来，我们再稍微修饰下：</p>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code>
+<span class="n">option</span><span class="p">(</span><span class="s2">"hello"</span><span class="p">)</span>
+
+    <span class="c1">-- 默认禁用这个开关，需要手动xmake f --hello=true才会启用，当然你也可以默认启用它</span>
+    <span class="n">set_default</span><span class="p">(</span><span class="kc">false</span><span class="p">)</span>
+
+    <span class="c1">-- 定义一些宏开关，这个只有在hello被启用的时候才会被定义</span>
+    <span class="n">add_defines_if_ok</span><span class="p">(</span><span class="s2">"HELLO_ENABLE"</span><span class="p">,</span> <span class="s2">"HELLO_TEST"</span><span class="p">)</span>
+
+    <span class="c1">-- 启用显示菜单，这样xmake f --help的时候，你这个新加的开关就会被显示出来</span>
+    <span class="n">set_showmenu</span><span class="p">(</span><span class="kc">true</span><span class="p">)</span>
+
+    <span class="c1">-- 对菜单中开关进行分类，这样显示的时候 布局会更好看，这个不是必须的</span>
+    <span class="n">set_category</span><span class="p">(</span><span class="s2">"module_xxx"</span><span class="p">)</span>
+
+    <span class="c1">-- 在菜单中，对这个开关进行详细描述</span>
+    <span class="n">set_description</span><span class="p">(</span><span class="s2">"Enable or disable the hello module"</span><span class="p">)</span>
+
+</code></pre>
+</div>
+
+<p>这个时候，你再敲下：</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>xmake f --help
+</code></pre>
+</div>
+
+<p>会显示如下菜单信息：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>此处省略...
+
+--hello=HELLO       Enable or disable the hello module (default: false)
+
+此处省略...
+</code></pre>
+</div>
+
+<p>这样给别人看的时候，也就更明了些。。。</p>
+
+<h2 id="自动检测机制">自动检测机制</h2>
+
+<p>接下来，我们整的稍微复杂些，让这个hello被启用的时候，自动链接上libhello.a库，并且可以对libhello.a进行自动检测，如果不存在，就禁用hello开关。。</p>
+
+<p>修改如下：</p>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code>
+<span class="n">option</span><span class="p">(</span><span class="s2">"hello"</span><span class="p">)</span>
+
+    <span class="c1">-- 默认禁用这个开关，需要手动xmake f --hello=true才会启用，当然你也可以默认启用它</span>
+    <span class="n">set_default</span><span class="p">(</span><span class="kc">false</span><span class="p">)</span>
+
+    <span class="c1">-- 定义一些宏开关，这个只有在hello被启用的时候才会被定义</span>
+    <span class="n">add_defines_if_ok</span><span class="p">(</span><span class="s2">"HELLO_ENABLE"</span><span class="p">,</span> <span class="s2">"HELLO_TEST"</span><span class="p">)</span>
+
+    <span class="c1">-- 启用显示菜单，这样xmake f --help的时候，你这个新加的开关就会被显示出来</span>
+    <span class="n">set_showmenu</span><span class="p">(</span><span class="kc">true</span><span class="p">)</span>
+
+    <span class="c1">-- 在菜单中，对这个开关进行详细描述</span>
+    <span class="n">set_description</span><span class="p">(</span><span class="s2">"Enable or disable the hello module"</span><span class="p">)</span>
+
+    <span class="c1">-- 添加链接库libhello.a，这个在xmake f 会去自动检测，如果检测链接不通过，那么这个开关就会被禁用掉</span>
+    <span class="c1">-- 如果ok，编译的时候会自动加上-lhello</span>
+    <span class="n">add_links</span><span class="p">(</span><span class="s2">"hello"</span><span class="p">)</span>
+
+    <span class="c1">-- 添加链接库检测搜索目录，如果路径不对，检测就会链接不通过，如果ok，在编译的时候，会自动加上-L./libs</span>
+    <span class="n">add_linkdirs</span><span class="p">(</span><span class="s2">"libs"</span><span class="p">)</span>
+
+</code></pre>
+</div>
+
+<p>修改后，如果这个hello开关被手动启用，或者自动检测通过，会在编译连接的时候，自动加上-L./libs -lhello的连接选项。</p>
+
+<h2 id="增加一些其他的检测规则">增加一些其他的检测规则</h2>
+
+<p>针对自动检测，除了可以检测链接库，还可以增加一些其他的检测规则：</p>
+
+<ul>
+  <li>检测头文件是否能够正常包含</li>
+  <li>类型定义是否存在</li>
+  <li>接口api是否存在</li>
+  <li>检测链接库是否能够正常链接</li>
+</ul>
+
+<p>例如：</p>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code>
+<span class="n">option</span><span class="p">(</span><span class="s2">"hello"</span><span class="p">)</span>
+
+    <span class="c1">-- 默认禁用这个开关，需要手动xmake f --hello=true才会启用，当然你也可以默认启用它</span>
+    <span class="n">set_default</span><span class="p">(</span><span class="kc">false</span><span class="p">)</span>
+
+    <span class="c1">-- 定义一些宏开关，这个只有在hello被启用的时候才会被定义</span>
+    <span class="n">add_defines_if_ok</span><span class="p">(</span><span class="s2">"HELLO_ENABLE"</span><span class="p">,</span> <span class="s2">"HELLO_TEST"</span><span class="p">)</span>
+
+    <span class="c1">-- 启用显示菜单，这样xmake f --help的时候，你这个新加的开关就会被显示出来</span>
+    <span class="n">set_showmenu</span><span class="p">(</span><span class="kc">true</span><span class="p">)</span>
+
+    <span class="c1">-- 在菜单中，对这个开关进行详细描述</span>
+    <span class="n">set_description</span><span class="p">(</span><span class="s2">"Enable or disable the hello module"</span><span class="p">)</span>
+
+    <span class="c1">-- 添加链接库libhello.a，这个在xmake f 会去自动检测，如果检测链接不通过，那么这个开关就会被禁用掉</span>
+    <span class="c1">-- 如果ok，编译的时候会自动加上-lhello</span>
+    <span class="n">add_links</span><span class="p">(</span><span class="s2">"hello"</span><span class="p">)</span>
+
+    <span class="c1">-- 添加链接库检测搜索目录，如果路径不对，检测就会链接不通过，如果ok，在编译的时候，会自动加上-L./libs</span>
+    <span class="n">add_linkdirs</span><span class="p">(</span><span class="s2">"libs"</span><span class="p">)</span>
+
+    <span class="c1">-- 检测在c代码中: include "hello/hello.h"，是否成功，ok的话才启用hello</span>
+    <span class="c1">-- 检测c++代码请使用：add_cxxincludes</span>
+    <span class="n">add_cincludes</span><span class="p">(</span><span class="s2">"hello/hello.h"</span><span class="p">)</span>
+
+    <span class="c1">-- 添加头文件检测路径，ok的话，会自动加上：-Iinc/xxx -I./inc的 编译选项</span>
+    <span class="n">add_includedirs</span><span class="p">(</span><span class="s2">"inc/$(plat)"</span><span class="p">,</span> <span class="s2">"inc"</span><span class="p">)</span>
+
+    <span class="c1">-- 检测对c代码类型wchar_t的支持，如果不存在这个类型，就检测失败</span>
+    <span class="c1">-- 检测会依赖add_cincludes中提供的头文件，如果给定的头文件中定义了这个类型，就能检测通过</span>
+    <span class="c1">-- 检测c++代码请使用：add_cxxtypes</span>
+    <span class="n">add_ctypes</span><span class="p">(</span><span class="s2">"wchar_t"</span><span class="p">)</span>
+
+    <span class="c1">-- 检测对c代码中是否存在接口api：hello_test()</span>
+    <span class="c1">-- 检测会依赖add_cincludes中提供的头文件，如果给定的头文件中定义了这个类型，就能检测通过</span>
+    <span class="c1">-- 检测c++代码请使用：add_cxxfuncs</span>
+    <span class="n">add_cfuncs</span><span class="p">(</span><span class="s2">"hello_test"</span><span class="p">)</span>
+
+</code></pre>
+</div>
+
+<p>需要注意的是，所有的检测都是and关系，必须全部通过，才会自动启用hello开关。</p>
+
+<h2 id="其他可以被自动添加的api">其他可以被自动添加的api</h2>
+
+<p>并且在检测ok或者被手动启用后，可以自动添加一些特殊的编译选项、宏定义，这些接口如下：</p>
+
+<ul>
+  <li><code class="highlighter-rouge">add_cflags</code>：选项开关被启用后，自动添加c编译选项</li>
+  <li><code class="highlighter-rouge">add_cxflags</code>：选项开关被启用后，自动添加c/c++编译选项</li>
+  <li><code class="highlighter-rouge">add_cxxflags</code>：选项开关被启用后，自动添加c++编译选项</li>
+  <li><code class="highlighter-rouge">add_ldflags</code>：选项开关被启用后，自动添加链接选项</li>
+  <li><code class="highlighter-rouge">add_vectorexts</code>：选项开关被启用后，自动添加指令扩展选项，例如：mmx, sse …</li>
+</ul>
+
+<h2 id="自动生成configh配置文件">自动生成config.h配置文件</h2>
+
+<p>option不仅可以在编译的时候，自动添加编译选项，还可以在启用后，自动生成各种宏开关到config.h文件中，方便我们在代码里面控制编译逻辑</p>
+
+<p>具体的使用说明，见：<a href="/cn/2016/08/06/add-package-and-autocheck/">依赖包的添加和自动检测机制</a></p>
+
+
+        </article>
+        <hr>
+
+        <!-- baidu ads -->
+        
+
+        <!-- reward -->
+        <div style="text-align: center;">
+            <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+              <span>赏</span>
+            </button>
+            <div id="QR" style="display: none;">
+                <div id="wechat" style="display: inline-block">
+                  <img id="wechat_qr" src="/static/img/weixin.png" alt="WeChat Pay"/>
+                  <p>微信打赏</p>
+                </div>
+                <div id="alipay" style="display: inline-block">
+                  <img id="alipay_qr" src="/static/img/alipay.png" alt="Alipay"/>
+                  <p>支付宝打赏</p>
+                </div>
+            </div>
+        </div>
+
+        
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+        
+
+        
+        
+            
+        
+            
+            
+            
+                
+                    
+                        
+                        <h2 id="similar_posts">相关文章</h2>
+                        <ul>
+                        
+                        <li class="relatedPost">
+                            <a href="/cn/2020/06/28/xmake-update-v2.3.5/">xmake v2.3.5 发布, 多工具链灵活切换支持
+                            
+                            </a>
+                        </li>
+                        
+                        
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+            
+            
+        
+            
+        
+            
+            
+            
+                
+                    
+                        
+                        <li class="relatedPost">
+                            <a href="/cn/2020/06/05/xmake-update-v2.3.4/">xmake v2.3.4 发布, 更加完善的工具链支持
+                            
+                            </a>
+                        </li>
+                        
+                        
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+            
+            
+        
+            
+        
+            
+            
+            
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                        
+                        <li class="relatedPost">
+                            <a href="/cn/2020/05/06/ltui-v1.7/">LTUI v1.7 发布, 一个基于lua的跨平台字符终端UI界面库
+                            
+                            </a>
+                        </li>
+                        
+                        
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+            
+            
+        
+            
+        
+            
+            
+            
+                
+                    
+                        
+                        <li class="relatedPost">
+                            <a href="/cn/2020/04/27/xmake-update-v2.3.3/">xmake v2.3.3 发布, 新增iOS/MacOS Framework和App构建支持
+                            
+                            </a>
+                        </li>
+                        
+                        
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+            
+            
+        
+            
+            
+            
+                
+                    
+                        
+                        <li class="relatedPost">
+                            <a href="/cn/2020/04/26/luject/">一个静态注入动态库的工具: luject
+                            
+                            </a>
+                        </li>
+                        
+                        
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+            
+            
+        
+            
+        
+        
+            </ul>
+        
+
+        <div class="post-recent">
+    <div class="pre">
+
+        
+
+        
+
+        
+        
+        <p><strong>上一篇</strong> <a href="/cn/2016/08/06/compile-swift/">使用xmake编译swift代码</a></p>
+        
+    </div>
+
+    <div class="nex">
+
+        
+
+        
+
+        
+        
+        <p><strong>下一篇</strong> <a href="/cn/2016/08/08/list-and-list-entry/">tbox链表list和list_entry的使用</a></p>
+        
+    </div>
+</div>
+
+
+        <h2 id="comments">评论</h2>
+        
+
+
+
+
+
+
+<div id="gitalk-container"></div>
+<link rel="stylesheet" href="/css/gitalk.css">
+<script src="/js/gitalk.min.js"></script>
+
+<script>
+const gitalk = new Gitalk({
+  clientID: '73946dc1d9e2276ad0da',
+  clientSecret: '12a3cb94361ba3ebc6ecb68cf80d592bfaa8106d',
+  repo: 'tboox.github.io',
+  owner: 'waruqi',
+  admin: ['waruqi'],
+  id: location.pathname,       
+  language: 'zh-CN',
+  distractionFreeMode: false  
+})
+
+gitalk.render('gitalk-container')
+</script>
+
+
+
+
+
+    </div>
+    <button class="anchor"><i class="fa fa-anchor"></i></button>
+    <div class="right">
+        <div class="wrap">
+
+            <!-- codefund ads -->
+            
+
+            <!-- Content -->
+            <div class="side content">
+                <div>
+                    内容
+                </div>
+                <ul id="content-side" class="content-ul">
+                    <li><a href="#english">English</a></li>
+                    <li><a href="#similar_posts">相关文章</a></li>
+                    <li><a href="#comments">评论</a></li>
+                </ul>
+            </div>
+
+
+            <!-- baidu ads -->
+            
+            
+            <br>
+            <div class="side">
+                <div>
+                    <i class="fa fa-external-link"></i>
+                    链接
+                </div>
+                <ul class="content-ul">
+                  <li><a href="http://github.com/waruqi/tbox">tbox</a></li>
+                  <li><a href="http://www.xmake.io">xmake</a></li>
+                  <li><a href="https://github.com/waruqi">github</a></li>
+                </ul>
+            </div> 
+
+            <!-- qqgroup -->
+            <br>
+            <div class="side">
+                <div>
+                    <i class="fa fa-external-link"></i>
+                    技术交流群（QQ）
+                </div>
+                <img src="/static/img/qqgroup.png" alt="qqgroup" width="256" height="284">
+            </div> 
+
+            <!-- google ads -->
+            
+
+            <!-- baidu ads -->
+            
+
+        </div>
+    </div>
+
+    <!-- baidu ads -->
+    
+</div>
+<script>
+/**
+ * target _blank
+ */
+(function() {
+    var aTags = document.querySelectorAll('article a:not([id])')
+    for (var i = 0; i < aTags.length; i++) {
+        aTags[i].setAttribute('target', '_blank')
+    }
+}());
+</script>
+<script src="/js/pageContent.js " charset="utf-8"></script>
+
+
+
+    <footer class="site-footer">
+    <div class="wrapper">
+        <p class="description">
+             Copyright (c) 2016-2020 tboox.org 
+        </p>
+        <p class="contact">
+            
+            <a href="https://github.com/waruqi" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a> 
+             
+            
+            <a href="mailto:waruqi@gmail.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a> 
+            
+            
+            <a href="https://twitter.com/waruqi" title="Twitter"><i class="fa fa-twitter" aria-hidden="true"></i></a> 
+            
+            <a href="/feed.xml" title="feed"><i class="fa fa-feed" aria-hidden="true"></i></a> 
+        </p>
+        <p class="power">
+            <span>
+                Site powered by <a href="https://jekyllrb.com/">Jekyll</a> & <a href="https://github.com/Gaohaoyang">HyG</a> & <a href="https://pages.github.com/">Github Pages</a>.
+            </span>
+        </p>
+    </div>
+</footer>
+
+    <div class="back-to-top">
+    <a href="#top" class="scroll">
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/scroll.min.js " charset="utf-8"></script>
+  </body>
+
+</html>

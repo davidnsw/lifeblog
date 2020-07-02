@@ -1,0 +1,1976 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+    <title>tbox链表list和list_entry的使用</title>
+    <meta name="description" content="TBOX中提供了各种列表操作：  list:              元素在内部维护的双向链表  list_entry:        元素在外部维护的双向链表  single_list:       元素在内部维护的单向链表  single_list_entry: 元素在外部维护的单向链表由于双链和单链的接口...">
+
+    
+    <meta name="keywords" content="tbox,list,链表,双向链表,单向链表,容器,tboox" /> 
+
+    <!-- qq oauth -->
+    <meta property="qc:admins" content="5211601217706727767255" />
+
+    <!--icon -->
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="icon" sizes="192x192" href="/static/img/nice-highres.png" />
+	<link rel="apple-touch-icon-precomposed" href="/static/img/apple-touch-icon-57x57-precomposed.png" />
+	<link rel="apple-touch-icon-precomposed" sizes="72x72" href="/static/img/apple-touch-icon-72x72-precomposed.png" />
+	<link rel="apple-touch-icon-precomposed" sizes="114x114" href="/static/img/apple-touch-icon-114x114-precomposed.png" />
+	<link rel="apple-touch-icon-precomposed" sizes="144x144" href="/static/img/apple-touch-icon-144x144-precomposed.png" />
+	<link rel="apple-touch-icon-precomposed" sizes="180x180" href="/static/img/retinahd_icon.png" />
+	<meta name="msapplication-TileImage" content="/static/img/retinahd_icon.png" />
+	
+    <link rel="stylesheet" href=" /css/fontawesome/css/font-awesome.min.css ">
+    <link rel="stylesheet" href=" /css/main.css ">
+    <link rel="canonical" href="http://www.tboox.org/cn/2016/08/08/list-and-list-entry/">
+    <link rel="alternate" type="application/rss+xml" title="TBOOX Open Source Project" href="http://www.tboox.org/feed.xml ">
+    <link rel="alternate" hreflang="en" href="http://www.tboox.org/" />
+    <link rel="alternate" hreflang="zh-Hans" href="http://www.tboox.org/cn/" />
+
+    <!-- css -->
+    <link href="/css/reward.css" rel="stylesheet" type="text/css"> 
+
+
+
+
+    <script type="text/javascript">
+    function isPC(){    
+        var userAgentInfo = navigator.userAgent;  
+        var Agents = new Array("Android", "iPhone", "SymbianOS", "Windows Phone", "iPad", "iPod");    
+        var flag = true;    
+        for (var v = 0; v < Agents.length; v++) {    
+            if (userAgentInfo.indexOf(Agents[v]) > 0) { flag = false; break; }    
+        }    
+        return flag;    
+    }
+    </script>
+
+<!-- baidu ads -->
+
+
+
+    <!-- baidu ads -->
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/cn" class="brand">TBOOX</a>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/?lang=0">
+                    
+                        <i class="fa fa-home"></i>English
+                    </a>
+                </li>
+
+                
+                    
+                    
+                    <li>
+                        
+                            
+                            <a href="/cn/project/">
+                            
+                        
+                            <i class="fa fa-bookmark"></i>项目
+                        </a>
+                    </li>
+                    
+                    
+                
+                    
+                    
+                    
+                
+                    
+                    
+                    <li>
+                        
+                            
+                            <a href="/cn/archive/">
+                            
+                        
+                            <i class="fa fa-archive"></i>归档
+                        </a>
+                    </li>
+                    
+                    
+                
+                    
+                    
+                    
+                
+                    
+                    
+                    <li>
+                        
+                            
+                            <a href="/cn/category/">
+                            
+                        
+                            <i class="fa fa-th-list"></i>分类
+                        </a>
+                    </li>
+                    
+                    
+                
+                    
+                    
+                    
+                
+                    
+                    
+                    <li>
+                        
+                            
+                            <a href="/cn/tag/">
+                            
+                        
+                            <i class="fa fa-tags"></i>标记
+                        </a>
+                    </li>
+                    
+                    
+                
+                    
+                    
+                    
+                
+                    
+                
+                    
+                    
+                    <li>
+                        
+                            
+                            <a href="/cn/docs/">
+                            
+                        
+                            <i class="fa fa-book"></i>文档
+                        </a>
+                    </li>
+                    
+                    
+                
+                    
+                    
+                    
+                
+                    
+                    
+                    <li>
+                        
+                            
+                            <a href="https://www.reddit.com/r/tboox/" target="_blank" >
+                            
+                        
+                            <i class="fa fa-forumbee"></i>社区
+                        </a>
+                    </li>
+                    
+                    
+                
+                    
+                    
+                    
+                
+                    
+                    
+                    <li>
+                        
+                            
+                            <a href="/cn/donation/">
+                            
+                        
+                            <i class="fa fa-heart"></i>捐助
+                        </a>
+                    </li>
+                    
+                    
+                
+                    
+                    
+                    
+                
+                    
+                    
+                    <li>
+                        
+                            
+                            <a href="/cn/about/">
+                            
+                        
+                            <i class="fa fa-user"></i>关于
+                        </a>
+                    </li>
+                    
+                    
+                
+                    
+                    
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                    
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+
+        <div class="page clearfix" post>
+    <div class="left">
+        <h1>tbox链表list和list_entry的使用</h1>
+        <div class="label">
+
+            <div class="label-card">
+                <i class="fa fa-calendar"></i>2016-08-08
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+            
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#tbox" title="Category: tbox" rel="category">tbox</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+            </div>
+
+            <div class="label-card">
+            
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+        <!--a href="/tag/#tbox" title="Tag: tbox" rel="tag">tbox</a-->
+        <a href="/cn/tag/#tbox" title="Tag: tbox" rel="tag">tbox</a>&nbsp;
+    
+        <!--a href="/tag/#list" title="Tag: list" rel="tag">list</a-->
+        <a href="/cn/tag/#list" title="Tag: list" rel="tag">list</a>&nbsp;
+    
+        <!--a href="/tag/#%E9%93%BE%E8%A1%A8" title="Tag: 链表" rel="tag">链表</a-->
+        <a href="/cn/tag/#链表" title="Tag: 链表" rel="tag">链表</a>&nbsp;
+    
+        <!--a href="/tag/#%E5%8F%8C%E5%90%91%E9%93%BE%E8%A1%A8" title="Tag: 双向链表" rel="tag">双向链表</a-->
+        <a href="/cn/tag/#双向链表" title="Tag: 双向链表" rel="tag">双向链表</a>&nbsp;
+    
+        <!--a href="/tag/#%E5%8D%95%E5%90%91%E9%93%BE%E8%A1%A8" title="Tag: 单向链表" rel="tag">单向链表</a-->
+        <a href="/cn/tag/#单向链表" title="Tag: 单向链表" rel="tag">单向链表</a>&nbsp;
+    
+        <!--a href="/tag/#%E5%AE%B9%E5%99%A8" title="Tag: 容器" rel="tag">容器</a-->
+        <a href="/cn/tag/#容器" title="Tag: 容器" rel="tag">容器</a>
+    
+  
+
+</span>
+
+            </div>
+
+        </div>
+        <hr>
+        <article itemscope itemtype="http://schema.org/BlogPosting">
+        <p>TBOX中提供了各种列表操作：</p>
+
+<ol>
+  <li>list:              元素在内部维护的双向链表</li>
+  <li>list_entry:        元素在外部维护的双向链表</li>
+  <li>single_list:       元素在内部维护的单向链表</li>
+  <li>single_list_entry: 元素在外部维护的单向链表</li>
+</ol>
+
+<p>由于双链和单链的接口使用类似，这里主要就讲解双链的具体使用。</p>
+
+<p>那什么是内部维护和外部维护呢？ 简单地说：</p>
+
+<ul>
+  <li>
+    <p>外部维护：就是链表容器本身不存储元素，不开辟内存空间，仅仅是一个节点头，这样比较节省内存，更加灵活。（尤其是在多个链表间元素迁移的时候，或者多个链表需要统一内存池维护的时候）。</p>
+  </li>
+  <li>
+    <p>内部维护：就是链表容器本身回去开辟一块空间，去单独存储元素内容，这种方式对接口的操作比较简单，但是灵活性和性能不如前一种，如果不需要多个链表维护同一种元素，那么使用这种模式简单操作下，更为妥当。（而且内部元素的存储也是用内存池优化过的）。</p>
+  </li>
+</ul>
+
+<h2 id="list的使用">list的使用</h2>
+
+<p>list的使用很简单，接口用起来也很方便，这里给个简单的例子：</p>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="c1">// 创建一个long类型的双链，参数0表示采用默认的自动元素增长大小，也可以手动设置更适合的大小
+</span><span class="n">tb_list_ref_t</span> <span class="n">list</span> <span class="o">=</span> <span class="n">tb_list_init</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">tb_element_long</span><span class="p">());</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">list</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// 在链表头部插入元素：1，并返回这个新元素的迭代器索引
+</span>    <span class="n">tb_size_t</span> <span class="n">itor</span> <span class="o">=</span> <span class="n">tb_list_insert_head</span><span class="p">(</span><span class="n">list</span><span class="p">,</span> <span class="p">(</span><span class="n">tb_pointer_t</span><span class="p">)</span><span class="mi">1</span><span class="p">);</span>
+
+    <span class="c1">// 在之前新的元素后面插入一个新元素：2
+</span>    <span class="n">tb_list_insert_next</span><span class="p">(</span><span class="n">list</span><span class="p">,</span> <span class="n">itor</span><span class="p">,</span> <span class="p">(</span><span class="n">tb_pointer_t</span><span class="p">)</span><span class="mi">2</span><span class="p">);</span>
+
+    <span class="c1">// 在链表尾部插入元素：3
+</span>    <span class="n">tb_list_insert_tail</span><span class="p">(</span><span class="n">list</span><span class="p">,</span> <span class="p">(</span><span class="n">tb_pointer_t</span><span class="p">)</span><span class="mi">3</span><span class="p">);</span>
+
+    <span class="c1">// 移除指定的元素
+</span>    <span class="n">tb_list_remove</span><span class="p">(</span><span class="n">list</span><span class="p">,</span> <span class="n">itor</span><span class="p">);</span>
+
+    <span class="c1">// 遍历所有链表元素，
+</span>    <span class="n">tb_for_all</span><span class="p">(</span><span class="n">tb_long_t</span><span class="p">,</span> <span class="n">item</span><span class="p">,</span> <span class="n">list</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="c1">// 打印元素值
+</span>        <span class="n">tb_trace_i</span><span class="p">(</span><span class="s">"%ld"</span><span class="p">,</span> <span class="n">item</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="c1">// 销毁list
+</span>    <span class="n">tb_list_exit</span><span class="p">(</span><span class="n">list</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<h2 id="list_entry的使用">list_entry的使用</h2>
+
+<p>list_entry由于是外置式的容器，需要在外面自己定义的结构体上进行操作，例如定义:</p>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="c1">// 链表元素结构体
+</span><span class="k">typedef</span> <span class="k">struct</span> <span class="n">__tb_demo_entry_t</span> 
+<span class="p">{</span>
+    <span class="c1">// 外置双链的节点，用于链表维护
+</span>    <span class="n">tb_list_entry_t</span>     <span class="n">entry</span><span class="p">;</span>
+
+    <span class="c1">// 元素的实际数据
+</span>    <span class="n">tb_size_t</span>           <span class="n">data</span><span class="p">;</span>
+
+<span class="p">}</span><span class="n">tb_demo_entry_t</span><span class="p">;</span>
+</code></pre>
+</div>
+
+<p>对链表的具体操作如下：</p>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="c1">// 定义一些静态元素，用于插入链表（实际使用可能需要自己动态创建他们）
+</span><span class="n">tb_demo_entry_t</span> <span class="n">entries</span><span class="p">[</span><span class="mi">12</span><span class="p">]</span> <span class="o">=</span> 
+<span class="p">{</span>
+    <span class="p">{</span> <span class="p">{</span><span class="mi">0</span><span class="p">},</span> <span class="mi">0</span> <span class="p">}</span>
+<span class="p">,</span>   <span class="p">{</span> <span class="p">{</span><span class="mi">0</span><span class="p">},</span> <span class="mi">1</span> <span class="p">}</span>
+<span class="p">,</span>   <span class="p">{</span> <span class="p">{</span><span class="mi">0</span><span class="p">},</span> <span class="mi">2</span> <span class="p">}</span>
+<span class="p">,</span>   <span class="p">{</span> <span class="p">{</span><span class="mi">0</span><span class="p">},</span> <span class="mi">3</span> <span class="p">}</span>
+<span class="p">,</span>   <span class="p">{</span> <span class="p">{</span><span class="mi">0</span><span class="p">},</span> <span class="mi">4</span> <span class="p">}</span>
+<span class="p">,</span>   <span class="p">{</span> <span class="p">{</span><span class="mi">0</span><span class="p">},</span> <span class="mi">5</span> <span class="p">}</span>
+<span class="p">,</span>   <span class="p">{</span> <span class="p">{</span><span class="mi">0</span><span class="p">},</span> <span class="mi">6</span> <span class="p">}</span>
+<span class="p">,</span>   <span class="p">{</span> <span class="p">{</span><span class="mi">0</span><span class="p">},</span> <span class="mi">7</span> <span class="p">}</span>
+<span class="p">,</span>   <span class="p">{</span> <span class="p">{</span><span class="mi">0</span><span class="p">},</span> <span class="mi">8</span> <span class="p">}</span>
+<span class="p">,</span>   <span class="p">{</span> <span class="p">{</span><span class="mi">0</span><span class="p">},</span> <span class="mi">9</span> <span class="p">}</span>
+<span class="p">,</span>   <span class="p">{</span> <span class="p">{</span><span class="mi">0</span><span class="p">},</span> <span class="mi">10</span><span class="p">}</span>
+<span class="p">,</span>   <span class="p">{</span> <span class="p">{</span><span class="mi">0</span><span class="p">},</span> <span class="mi">11</span><span class="p">}</span>
+<span class="p">};</span>
+
+<span class="c1">// 初始化链表，需要指定外置元素的结构体类型，链表的节点名字
+</span><span class="n">tb_list_entry_head_t</span> <span class="n">list</span><span class="p">;</span>
+<span class="n">tb_list_entry_init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">list</span><span class="p">,</span> <span class="n">tb_demo_entry_t</span><span class="p">,</span> <span class="n">entry</span><span class="p">,</span> <span class="n">tb_null</span><span class="p">);</span>
+
+<span class="c1">// 插入一些元素，注意：所有操作都是在外置结构体中的list_entry节点上操作
+</span><span class="n">tb_list_entry_insert_tail</span><span class="p">(</span><span class="o">&amp;</span><span class="n">list</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">entries</span><span class="p">[</span><span class="mi">5</span><span class="p">].</span><span class="n">entry</span><span class="p">);</span>
+<span class="n">tb_list_entry_insert_tail</span><span class="p">(</span><span class="o">&amp;</span><span class="n">list</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">entries</span><span class="p">[</span><span class="mi">6</span><span class="p">].</span><span class="n">entry</span><span class="p">);</span>
+<span class="n">tb_list_entry_insert_tail</span><span class="p">(</span><span class="o">&amp;</span><span class="n">list</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">entries</span><span class="p">[</span><span class="mi">7</span><span class="p">].</span><span class="n">entry</span><span class="p">);</span>
+<span class="n">tb_list_entry_insert_tail</span><span class="p">(</span><span class="o">&amp;</span><span class="n">list</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">entries</span><span class="p">[</span><span class="mi">8</span><span class="p">].</span><span class="n">entry</span><span class="p">);</span>
+<span class="n">tb_list_entry_insert_tail</span><span class="p">(</span><span class="o">&amp;</span><span class="n">list</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">entries</span><span class="p">[</span><span class="mi">9</span><span class="p">].</span><span class="n">entry</span><span class="p">);</span>
+<span class="n">tb_list_entry_insert_head</span><span class="p">(</span><span class="o">&amp;</span><span class="n">list</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">entries</span><span class="p">[</span><span class="mi">4</span><span class="p">].</span><span class="n">entry</span><span class="p">);</span>
+<span class="n">tb_list_entry_insert_head</span><span class="p">(</span><span class="o">&amp;</span><span class="n">list</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">entries</span><span class="p">[</span><span class="mi">3</span><span class="p">].</span><span class="n">entry</span><span class="p">);</span>
+<span class="n">tb_list_entry_insert_head</span><span class="p">(</span><span class="o">&amp;</span><span class="n">list</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">entries</span><span class="p">[</span><span class="mi">2</span><span class="p">].</span><span class="n">entry</span><span class="p">);</span>
+<span class="n">tb_list_entry_insert_head</span><span class="p">(</span><span class="o">&amp;</span><span class="n">list</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">entries</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">entry</span><span class="p">);</span>
+<span class="n">tb_list_entry_insert_head</span><span class="p">(</span><span class="o">&amp;</span><span class="n">list</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">entries</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">entry</span><span class="p">);</span>
+
+<span class="c1">// 访问具体某个节点的元素数据
+</span><span class="n">tb_demo_entry_t</span><span class="o">*</span> <span class="n">entry</span> <span class="o">=</span> <span class="p">(</span><span class="n">tb_demo_entry_t</span><span class="o">*</span><span class="p">)</span><span class="n">tb_list_entry</span><span class="p">(</span><span class="o">&amp;</span><span class="n">list</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">entries</span><span class="p">[</span><span class="mi">5</span><span class="p">].</span><span class="n">entry</span><span class="p">);</span>
+<span class="n">tb_trace_i</span><span class="p">(</span><span class="s">"entry: %lu"</span><span class="p">,</span> <span class="n">entry</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">);</span>
+
+<span class="c1">// 遍历所有元素
+</span><span class="n">tb_trace_i</span><span class="p">(</span><span class="s">"insert: %lu"</span><span class="p">,</span> <span class="n">tb_list_entry_size</span><span class="p">(</span><span class="o">&amp;</span><span class="n">list</span><span class="p">));</span>
+<span class="n">tb_for_all_if</span><span class="p">(</span><span class="n">tb_demo_entry_t</span><span class="o">*</span><span class="p">,</span> <span class="n">item0</span><span class="p">,</span> <span class="n">tb_list_entry_itor</span><span class="p">(</span><span class="o">&amp;</span><span class="n">list</span><span class="p">),</span> <span class="n">item0</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">tb_trace_i</span><span class="p">(</span><span class="s">"%lu"</span><span class="p">,</span> <span class="n">item0</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="c1">// 替换头尾的元素
+</span><span class="n">tb_list_entry_replace_head</span><span class="p">(</span><span class="o">&amp;</span><span class="n">list</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">entries</span><span class="p">[</span><span class="mi">10</span><span class="p">].</span><span class="n">entry</span><span class="p">);</span>
+<span class="n">tb_list_entry_replace_last</span><span class="p">(</span><span class="o">&amp;</span><span class="n">list</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">entries</span><span class="p">[</span><span class="mi">11</span><span class="p">].</span><span class="n">entry</span><span class="p">);</span>
+
+<span class="c1">// 移除头尾的元素
+</span><span class="n">tb_list_entry_remove_head</span><span class="p">(</span><span class="o">&amp;</span><span class="n">list</span><span class="p">);</span>
+<span class="n">tb_list_entry_remove_last</span><span class="p">(</span><span class="o">&amp;</span><span class="n">list</span><span class="p">);</span>
+
+<span class="c1">// 移动元素位置，这里吧头尾的元素对调了下
+</span><span class="n">tb_list_entry_ref_t</span> <span class="n">head</span> <span class="o">=</span> <span class="n">tb_list_entry_head</span><span class="p">(</span><span class="o">&amp;</span><span class="n">list</span><span class="p">);</span>
+<span class="n">tb_list_entry_moveto_head</span><span class="p">(</span><span class="o">&amp;</span><span class="n">list</span><span class="p">,</span> <span class="n">tb_list_entry_last</span><span class="p">(</span><span class="o">&amp;</span><span class="n">list</span><span class="p">));</span>
+<span class="n">tb_list_entry_moveto_tail</span><span class="p">(</span><span class="o">&amp;</span><span class="n">list</span><span class="p">,</span> <span class="n">head</span><span class="p">);</span>
+
+<span class="c1">// 退出列表
+</span><span class="n">tb_list_entry_exit</span><span class="p">(</span><span class="o">&amp;</span><span class="n">list</span><span class="p">);</span>
+</code></pre>
+</div>
+
+<p>怎么样，也不是很复杂吧，由于元素的内存都在外面自己维护，所以灵活性提升了不少，并且可以多个链表同时维护，然后共用一个内存池进行优化，效率和内存都能得到最大的提升，这种模式在linux内核里面很常见。</p>
+
+<p>如果要做比喻的话，list就是傻瓜式操作，list_entry就是定制化操作。。。</p>
+
+
+        </article>
+        <hr>
+
+        <!-- baidu ads -->
+        
+
+        <!-- reward -->
+        <div style="text-align: center;">
+            <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+              <span>赏</span>
+            </button>
+            <div id="QR" style="display: none;">
+                <div id="wechat" style="display: inline-block">
+                  <img id="wechat_qr" src="/static/img/weixin.png" alt="WeChat Pay"/>
+                  <p>微信打赏</p>
+                </div>
+                <div id="alipay" style="display: inline-block">
+                  <img id="alipay_qr" src="/static/img/alipay.png" alt="Alipay"/>
+                  <p>支付宝打赏</p>
+                </div>
+            </div>
+        </div>
+
+        
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+            
+            
+                
+            
+        
+            
+        
+        
+
+        
+        
+            
+        
+            
+            
+            
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+            
+        
+            
+        
+            
+            
+            
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+            
+        
+            
+        
+            
+            
+            
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+            
+        
+            
+        
+            
+            
+            
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+            
+        
+            
+            
+            
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            
+            
+        
+            
+        
+        
+
+        <div class="post-recent">
+    <div class="pre">
+
+        
+
+        
+
+        
+        
+        <p><strong>上一篇</strong> <a href="/cn/2016/08/07/custom-option/">xmake高级特性之自定义选项</a></p>
+        
+    </div>
+
+    <div class="nex">
+
+        
+
+        
+
+        
+        
+        <p><strong>下一篇</strong> <a href="/cn/2016/08/08/variables-usage/">xmake内建变量和外置变量的使用</a></p>
+        
+    </div>
+</div>
+
+
+        <h2 id="comments">评论</h2>
+        
+
+
+
+
+
+
+<div id="gitalk-container"></div>
+<link rel="stylesheet" href="/css/gitalk.css">
+<script src="/js/gitalk.min.js"></script>
+
+<script>
+const gitalk = new Gitalk({
+  clientID: '73946dc1d9e2276ad0da',
+  clientSecret: '12a3cb94361ba3ebc6ecb68cf80d592bfaa8106d',
+  repo: 'tboox.github.io',
+  owner: 'waruqi',
+  admin: ['waruqi'],
+  id: location.pathname,       
+  language: 'zh-CN',
+  distractionFreeMode: false  
+})
+
+gitalk.render('gitalk-container')
+</script>
+
+
+
+
+
+    </div>
+    <button class="anchor"><i class="fa fa-anchor"></i></button>
+    <div class="right">
+        <div class="wrap">
+
+            <!-- codefund ads -->
+            
+
+            <!-- Content -->
+            <div class="side content">
+                <div>
+                    内容
+                </div>
+                <ul id="content-side" class="content-ul">
+                    <li><a href="#english">English</a></li>
+                    <li><a href="#similar_posts">相关文章</a></li>
+                    <li><a href="#comments">评论</a></li>
+                </ul>
+            </div>
+
+
+            <!-- baidu ads -->
+            
+            
+            <br>
+            <div class="side">
+                <div>
+                    <i class="fa fa-external-link"></i>
+                    链接
+                </div>
+                <ul class="content-ul">
+                  <li><a href="http://github.com/waruqi/tbox">tbox</a></li>
+                  <li><a href="http://www.xmake.io">xmake</a></li>
+                  <li><a href="https://github.com/waruqi">github</a></li>
+                </ul>
+            </div> 
+
+            <!-- qqgroup -->
+            <br>
+            <div class="side">
+                <div>
+                    <i class="fa fa-external-link"></i>
+                    技术交流群（QQ）
+                </div>
+                <img src="/static/img/qqgroup.png" alt="qqgroup" width="256" height="284">
+            </div> 
+
+            <!-- google ads -->
+            
+
+            <!-- baidu ads -->
+            
+
+        </div>
+    </div>
+
+    <!-- baidu ads -->
+    
+</div>
+<script>
+/**
+ * target _blank
+ */
+(function() {
+    var aTags = document.querySelectorAll('article a:not([id])')
+    for (var i = 0; i < aTags.length; i++) {
+        aTags[i].setAttribute('target', '_blank')
+    }
+}());
+</script>
+<script src="/js/pageContent.js " charset="utf-8"></script>
+
+
+
+    <footer class="site-footer">
+    <div class="wrapper">
+        <p class="description">
+             Copyright (c) 2016-2020 tboox.org 
+        </p>
+        <p class="contact">
+            
+            <a href="https://github.com/waruqi" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a> 
+             
+            
+            <a href="mailto:waruqi@gmail.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a> 
+            
+            
+            <a href="https://twitter.com/waruqi" title="Twitter"><i class="fa fa-twitter" aria-hidden="true"></i></a> 
+            
+            <a href="/feed.xml" title="feed"><i class="fa fa-feed" aria-hidden="true"></i></a> 
+        </p>
+        <p class="power">
+            <span>
+                Site powered by <a href="https://jekyllrb.com/">Jekyll</a> & <a href="https://github.com/Gaohaoyang">HyG</a> & <a href="https://pages.github.com/">Github Pages</a>.
+            </span>
+        </p>
+    </div>
+</footer>
+
+    <div class="back-to-top">
+    <a href="#top" class="scroll">
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/scroll.min.js " charset="utf-8"></script>
+  </body>
+
+</html>
