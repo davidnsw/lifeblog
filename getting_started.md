@@ -1,7 +1,7 @@
 <div align="center">
 
   <a href="https://tboox.io">
-    <img width="200" heigth="200" src="https://tboox.io/assets/img/logo_text.png">
+    <img width="200" heigth="200" src="/assets/img/logo_text.png">
   </a>  
 
   <div>
@@ -39,7 +39,7 @@
   <p>A glib-like cross-platform C library</p>
 </div>
 
-## Introduction 
+## Introduction ([中文](/zh-cn/getting_started))
 
 TBOX is a glib-like cross-platform C library that is simple to use yet powerful in nature.
 
@@ -64,7 +64,7 @@ And it provides many compiling options using [xmake](https://github.com/xmake-io
 If you want to know more, please refer to:
 
 * [HomePage](https://tboox.org)
-* [Documents](https://tboox.io/#/getting_started)
+* [Documents](https://github.com/tboox/tbox/wiki/documents)
 * [Github](https://github.com/tboox/tbox)
 * [Gitee](https://gitee.com/tboox/tbox)
 
@@ -279,7 +279,7 @@ int main(int argc, char** argv)
     }
 
     // wait 
-    tb_getchar();
+    getchar();
 
     // exit tbox
     tb_exit();
@@ -292,6 +292,3 @@ int main(int argc, char** argv)
 * Email：[waruqi@gmail.com](mailto:waruqi@gmail.com)
 * Homepage：[tboox.org](https://tboox.org)
 * Community：[/r/tboox on reddit](https://www.reddit.com/r/tboox/)
-* QQ Group: 343118190
-* Wechat Public: tboox-os
-
