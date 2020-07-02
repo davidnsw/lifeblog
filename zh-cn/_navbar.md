@@ -1,0 +1,6 @@
+- [文章](https://davidnsw.github.io./)
+- [反馈](https://calendly.com/guangwei/phone-call)
+- [社区](https://www.reddit.com/r/tboox/)
+- Lanuages
+  - [:uk: English](/)
+  - [:cn: 中文](/zh-cn/)
