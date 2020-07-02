@@ -1,9 +1,9 @@
 <img src="/assets/img/logo_text.png" width="20%" />
 
-> A glib-like cross-platform C library
+> David's software sharing library
 
 - Simple, Fast, Cross-platform 
 
-[Gitee](https://gitee.com/tboox/tbox/)
-[Github](https://github.com/tboox/tbox/)
+[Blog](https://davidnsw.github.io./)
+[Github](https://github.com/davidnsw)
 [Getting Started](/getting_started)

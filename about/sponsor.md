@@ -1,5 +1,5 @@
 
-The tbox projects is a personal open source projects, their development need your help.
+The dbox projects is a personal open source projects, their development need your help.
 
 If you would like to support the development of tbox, welcome to donate to us.
 

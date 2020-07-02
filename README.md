@@ -41,7 +41,7 @@
 
 ## Introduction 
 
-TBOX is a glib-like cross-platform C library that is simple to use yet powerful in nature.
+DBOX is an open source platform for David to share software and development experiences.
 
 The project focuses on making C development easier and provides many modules (.e.g stream, coroutine, regex, container, algorithm ...), 
 so that any developer can quickly pick it up and enjoy the productivity boost when developing in C language.

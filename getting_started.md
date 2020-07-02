@@ -1,6 +1,6 @@
 <div align="center">
 
-  <a href="https://tboox.io">
+  <a href="https://davidnsw.github.io/lifeblog/">
     <img width="200" heigth="200" src="/assets/img/logo_text.png">
   </a>  
 
@@ -63,10 +63,10 @@ And it provides many compiling options using [xmake](https://github.com/xmake-io
 
 If you want to know more, please refer to:
 
-* [HomePage](https://tboox.org)
-* [Documents](https://github.com/tboox/tbox/wiki/documents)
-* [Github](https://github.com/tboox/tbox)
-* [Gitee](https://gitee.com/tboox/tbox)
+* [HomePage](https://davidnsw.github.io/homepage/)
+* [Documents](https://davidnsw.github.io/lifeblog/)
+* [Github](https://github.com/davidnsw)
+* [Gitee](https://gitee.com/davidnsw)
 
 ## Features
 
@@ -289,6 +289,6 @@ int main(int argc, char** argv)
 
 ## Contacts
 
-* Email：[waruqi@gmail.com](mailto:waruqi@gmail.com)
-* Homepage：[tboox.org](https://tboox.org)
+* Email：[点击可见](https://calendly.com/guangwei/phone-call?month=2020-07)
+* Homepage：[David's Homepage](https://davidnsw.github.io/homepage/)
 * Community：[/r/tboox on reddit](https://www.reddit.com/r/tboox/)

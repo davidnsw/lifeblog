@@ -1,6 +1,6 @@
 <div align="center">
 
-  <a href="https://tboox.io">
+  <a href="https://davidnsw.github.io/lifeblog/">
     <img width="200" heigth="200" src="https://tboox.io/assets/img/logo_text.png">
   </a>  
 
@@ -41,7 +41,7 @@
 
 ## 简介
 
-TBOX是一个用c语言实现的跨平台开发库。
+DBOX是David分享软件和开发经验的一个开源平台。
 
 针对各个平台，封装了统一的接口，简化了各类开发过程中常用操作，使你在开发过程中，更加关注实际应用的开发，而不是把时间浪费在琐碎的接口兼容性上面，并且充分利用了各个平台独有的一些特性进行优化。
 
